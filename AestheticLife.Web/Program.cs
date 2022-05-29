@@ -1,7 +1,10 @@
+using AestheticLife.DataAccess;
+using AestheticLife.DataAccess.Extensions;
 using AestheticLife.Web.Core.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
+    .AddDatabase(builder.Configuration)
     .ConfigureServices()
     .AddControllers().Services
     .AddEndpointsApiExplorer();
@@ -21,5 +24,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.Run();
+app.MigrateDbContext<AestheticLifeDbContext>().Run();

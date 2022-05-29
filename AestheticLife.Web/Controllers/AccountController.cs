@@ -12,6 +12,7 @@ public class AccountController : BaseWebController
     {
     }
 
+
     [HttpGet]
     public async Task<IActionResult> Hello() => new OkObjectResult("Hello");
 }
