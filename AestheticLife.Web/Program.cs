@@ -1,7 +1,10 @@
-var builder = WebApplication.CreateBuilder(args);
+using AestheticLife.Web.Core.Extensions;
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .ConfigureServices()
+    .AddControllers().Services
+    .AddEndpointsApiExplorer();
 
 var app = builder.Build();
 

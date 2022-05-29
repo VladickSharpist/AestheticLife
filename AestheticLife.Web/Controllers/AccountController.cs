@@ -1,10 +1,11 @@
+using AestheticLife.Web.Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AestheticLife.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
-public class AccountController : ControllerBase
+public class AccountController : BaseWebController
 {
 
     public AccountController()
