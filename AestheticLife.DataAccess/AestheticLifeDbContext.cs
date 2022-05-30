@@ -1,6 +1,5 @@
-﻿using System.Reflection;
+﻿using AestheticLife.DataAccess.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace AestheticLife.DataAccess;
 
@@ -14,8 +13,6 @@ public class AestheticLifeDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        Assembly assemblyWithConfigurations = GetType().Assembly; //get whatever assembly you want
-        modelBuilder.ApplyConfigurationsFromAssembly(assemblyWithConfigurations);
-        //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.ApplyEntities();
     }
 }
