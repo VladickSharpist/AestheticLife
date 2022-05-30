@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AestheticLife.DataAccess\AestheticLife.DataAccess.csproj" />
       <ProjectReference Include="..\AestheticLife.Web.Core\AestheticLife.Web.Core.csproj" />
     </ItemGroup>
 
