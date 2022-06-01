@@ -1,3 +1,4 @@
+using AestheticLife.Core.Abstractions.Helpers;
 using AestheticLife.DataAccess;
 using AestheticLife.DataAccess.Extensions;
 using AestheticLife.Web.Core.Extensions;
@@ -5,7 +6,8 @@ using AestheticLife.Web.Core.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDatabase(builder.Configuration)
-    .ConfigureServices()
+    .ConfigureServices(builder.Configuration)
+    .ApplyCors()
     .AddControllers().Services
     .AddEndpointsApiExplorer();
 
@@ -19,7 +21,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
-
+app.UseCors(builder.Services.GetUsingCors());
 app.UseAuthentication();
 app.UseAuthorization();
 

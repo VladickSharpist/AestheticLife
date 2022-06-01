@@ -10,4 +10,8 @@
       <ProjectReference Include="..\AestheticLife.Core.FileStorage.Abstractions\AestheticLife.Core.FileStorage.Abstractions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Implementations" />
+    </ItemGroup>
+
 </Project>
