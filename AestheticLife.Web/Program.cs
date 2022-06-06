@@ -1,4 +1,3 @@
-using AestheticLife.Core.Abstractions.Helpers;
 using AestheticLife.DataAccess;
 using AestheticLife.DataAccess.Extensions;
 using AestheticLife.Web.Core.Extensions;
@@ -6,6 +5,7 @@ using AestheticLife.Web.Core.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDatabase(builder.Configuration)
+    .AddUnitOfWork<AestheticLifeDbContext>()
     .ConfigureServices(builder.Configuration)
     .ApplyCors()
     .AddControllers().Services

@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AestheticLife.Core", "Aesth
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AestheticLife.Core.Abstractions", "AestheticLife.Core.Abstractions\AestheticLife.Core.Abstractions.csproj", "{251CB405-E32D-4F14-BA1F-A58373920299}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AestheticsLife.DataAccess.Abstractions", "AestheticsLife.DataAccess.Abstractions\AestheticsLife.DataAccess.Abstractions.csproj", "{82C6EC30-F0CC-41FA-8B97-EAF501C1ACFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{251CB405-E32D-4F14-BA1F-A58373920299}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{251CB405-E32D-4F14-BA1F-A58373920299}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{251CB405-E32D-4F14-BA1F-A58373920299}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82C6EC30-F0CC-41FA-8B97-EAF501C1ACFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82C6EC30-F0CC-41FA-8B97-EAF501C1ACFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82C6EC30-F0CC-41FA-8B97-EAF501C1ACFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82C6EC30-F0CC-41FA-8B97-EAF501C1ACFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8451C7A5-9FBA-49C4-868A-1862F6861B7E} = {F1FB6CDA-7BE0-4F09-A2CD-05C559F881C4}
@@ -79,5 +85,6 @@ Global
 		{0796B577-FEB4-4891-B8FE-FC76987F338A} = {F1FB6CDA-7BE0-4F09-A2CD-05C559F881C4}
 		{F115B096-0BFF-4B88-9BD1-9DCF490F2061} = {8101E9C5-F1B8-4375-AF77-A4C75A4694C5}
 		{251CB405-E32D-4F14-BA1F-A58373920299} = {8101E9C5-F1B8-4375-AF77-A4C75A4694C5}
+		{82C6EC30-F0CC-41FA-8B97-EAF501C1ACFD} = {BCAFDB21-F1D2-44AD-831F-406480766017}
 	EndGlobalSection
 EndGlobal
