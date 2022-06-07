@@ -1,12 +1,18 @@
+using AestheticLife.Auth.Services.Abstractions.Extesions;
 using AestheticLife.DataAccess;
 using AestheticLife.DataAccess.Extensions;
 using AestheticLife.Web.Core.Extensions;
+using AestheticLife.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDatabase(builder.Configuration)
+    .AddWebMapper()
+    .AddAuthServicesMapper()
     .AddUnitOfWork<AestheticLifeDbContext>()
     .ConfigureServices(builder.Configuration)
+    .AddIdentity()
+    .AddValidator()
     .ApplyCors()
     .AddControllers().Services
     .AddEndpointsApiExplorer();

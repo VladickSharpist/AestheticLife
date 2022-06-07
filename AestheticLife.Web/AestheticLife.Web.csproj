@@ -7,12 +7,20 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="11.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.5" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AestheticLife.DataAccess\AestheticLife.DataAccess.csproj" />
+      <ProjectReference Include="..\AestheticLife.Auth.Services.Abstractions\AestheticLife.Auth.Services.Abstractions.csproj" />
       <ProjectReference Include="..\AestheticLife.Web.Core\AestheticLife.Web.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Models2\Response\Profiles" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿using AestheticLife.Core.Abstractions.Helpers;
+﻿using AestheticLife.Auth.Services.Extensions;
+using AestheticLife.Core.Abstractions.Helpers;
+using AestheticLife.DataAccess.Extensions;
 using AestheticsLife.Core.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +13,8 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
         => services
-            .AddHelpers(configuration);
+            .AddHelpers(configuration)
+            .AddAuthenticationService();
 
     public static IServiceCollection ApplyCors(
         this IServiceCollection services)
@@ -34,4 +37,7 @@ public static class ServiceCollectionExtensions
             .BuildServiceProvider()
             .GetRequiredService<IConfigurationHelper>()
             .Policy;
+
+    public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration config)
+        => services.AddContext(config);
 }

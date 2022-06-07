@@ -1,8 +1,7 @@
-﻿using AestheticLife.DataAccess.Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AestheticLife.DataAccess.Domain.ModelConfigurations;
+namespace AestheticLife.DataAccess.Domain.Models.Configurations;
 
 public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
 {
