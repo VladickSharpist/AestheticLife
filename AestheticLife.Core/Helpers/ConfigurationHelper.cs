@@ -20,4 +20,9 @@ public class ConfigurationHelper : IConfigurationHelper
     public string Policy => _configuration
         .GetSection("Policy")
         .Value;
+
+    public string Localhost => _configuration
+        .GetSection("Environments")
+        .GetSection("Localhost")
+        .Value;
 }

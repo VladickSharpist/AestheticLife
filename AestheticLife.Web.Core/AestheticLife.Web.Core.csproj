@@ -24,7 +24,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AestheticLife.Auth.Services\AestheticLife.Auth.Services.csproj" />
       <ProjectReference Include="..\AestheticLife.Core\AestheticLife.Core.csproj" />
+      <ProjectReference Include="..\AestheticLife.DataAccess\AestheticLife.DataAccess.csproj" />
     </ItemGroup>
 
 </Project>

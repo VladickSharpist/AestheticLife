@@ -9,11 +9,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AestheticLife.Core.Abstractions\AestheticLife.Core.Abstractions.csproj" />
+      <ProjectReference Include="..\AestheticLife.DataAccess.Domain\AestheticLife.DataAccess.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.5" />
     </ItemGroup>
 
 </Project>
