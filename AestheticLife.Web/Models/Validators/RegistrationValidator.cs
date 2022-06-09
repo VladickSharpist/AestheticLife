@@ -1,7 +1,7 @@
-﻿using AestheticLife.Web.Models2.Request;
+﻿using AestheticLife.Web.Models.Request;
 using FluentValidation;
 
-namespace AestheticLife.Web.Models2.Validators;
+namespace AestheticLife.Web.Models.Validators;
 
 public class RegistrationValidator : AbstractValidator<RegistrationRequestVm> 
 {
@@ -19,6 +19,7 @@ public class RegistrationValidator : AbstractValidator<RegistrationRequestVm>
             .WithErrorCode("Password can not be null");
         RuleFor(r => r.Password)
             .Matches(@"^(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z])\S{0,}$")
+            .NotNull()
             .WithErrorCode("Password must contain at least 1 letter, 1 number and 1 special symbol, no spaces");
         RuleFor(r => r.ConfirmPassword)
             .Equal(r => r.Password)

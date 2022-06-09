@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+
 namespace AestheticLife.Core.Abstractions.Helpers;
 
 public interface IConfigurationHelper
@@ -7,4 +9,6 @@ public interface IConfigurationHelper
     string Policy { get; }
 
     string Localhost { get; }
+
+    IConfigurationSection JwtConfig { get; }
 }

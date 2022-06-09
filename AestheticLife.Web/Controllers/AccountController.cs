@@ -1,8 +1,9 @@
 using AestheticLife.Auth.Services.Abstractions.Interfaces;
 using AestheticLife.Auth.Services.Abstractions.Models;
 using AestheticLife.Web.Core.Controllers;
-using AestheticLife.Web.Models2.Request;
 using AutoMapper;
+using AestheticLife.Web.Models.Request;
+using AestheticLife.Web.Models.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,21 +15,24 @@ public class AccountController : BaseWebController
 {
     private readonly IAuthService _authService;
     private readonly IEmailService _emailService;
+    private readonly ITokenService _tokenService;
 
     public AccountController(
         IAuthService authService,
         IMapper mapper,
-        IEmailService emailService)
+        IEmailService emailService,
+        ITokenService tokenService)
         :base(mapper)
     {
         _authService = authService;
         _emailService = emailService;
+        _tokenService = tokenService;
     }
 
     [AllowAnonymous]
     [HttpPost]
-    public async Task<IActionResult> Registration([FromBody] RegistrationRequestVm model)
-        => Ok(await _authService.RegisterAsync(
+    public async Task<ActionResult<bool>> Registration([FromBody] RegistrationRequestVm model)
+        => new (await _authService.RegisterAsync(
             _mapper.Map<RegisterUserDto>(model)));
 
     [HttpPost]
@@ -40,6 +44,14 @@ public class AccountController : BaseWebController
     } 
 
     [HttpGet]
-    public async Task<IActionResult> ConfirmEmail(string token, string userId)
-        => Ok(await _emailService.ConfirmEmail(userId, token));
+    public async Task<ActionResult<bool>> ConfirmEmail(string token, string userId)
+        => new(await _emailService.ConfirmEmail(userId, token));
+
+    [HttpPost]
+    public async Task<ActionResult<LoginResponseVm>> Login([FromBody] LoginRequestVm model)
+        => _mapper.Map<LoginResponseVm>(await _authService.LoginAsync(_mapper.Map<LoginDto>(model)));
+
+    [HttpPost]
+    public async Task<ActionResult<RefreshResponseVm>> Refresh(string refreshToken)
+        => _mapper.Map<RefreshResponseVm>(await _tokenService.RefreshAsync(refreshToken));
 }

@@ -25,4 +25,7 @@ public class ConfigurationHelper : IConfigurationHelper
         .GetSection("Environments")
         .GetSection("Localhost")
         .Value;
+
+    public IConfigurationSection JwtConfig => _configuration
+        .GetSection("JwtConfig");
 }

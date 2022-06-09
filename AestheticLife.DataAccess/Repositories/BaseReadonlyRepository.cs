@@ -7,7 +7,7 @@ namespace AestheticLife.DataAccess;
 
 internal class BaseReadonlyRepository<TEntity>
         : IBaseReadonlyRepository<TEntity> 
-        where TEntity : class, IEntity
+        where TEntity : class
     {
         protected DbContext _dbContext;
         protected DbSet<TEntity> _dbSet;

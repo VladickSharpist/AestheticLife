@@ -10,8 +10,10 @@ builder.Services
     .AddWebMapper()
     .AddAuthServicesMapper()
     .AddUnitOfWork<AestheticLifeDbContext>()
-    .ConfigureServices(builder.Configuration)
-    .AddIdentity()
+    .AddCustomRepositories()
+    .AddInfrastructure(builder.Configuration)
+    .AddServices()
+    .AddIdentity(builder.Configuration)
     .AddValidator()
     .ApplyCors()
     .AddControllers().Services

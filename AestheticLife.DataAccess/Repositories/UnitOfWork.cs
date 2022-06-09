@@ -1,5 +1,3 @@
-using System.Data;
-using System.Data.Common;
 using AestheticLife.DataAccess.Domain.Abstractions.Interfaces;
 using AestheticsLife.DataAccess.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +10,8 @@ internal class UnitOfWork<TContext>
         where TContext : DbContext
     {
         private bool _disposed;
-        private IDictionary<Type, object> _repositories;
+        private IDictionary<Type, object> _readonlyRepositories;
+        private IDictionary<Type, object> _readwriteRepositories;
         public TContext DbContext { get; }
 
         public UnitOfWork(TContext context)
@@ -22,41 +21,41 @@ internal class UnitOfWork<TContext>
         }
 
         public IBaseReadonlyRepository<TEntity> GetReadonlyRepository<TEntity>()
-            where TEntity : class, IEntity
+            where TEntity : class
         {
-            if (_repositories == null)
+            if (_readonlyRepositories == null)
             {
-                _repositories = new Dictionary<Type, object>();
+                _readonlyRepositories = new Dictionary<Type, object>();
             }
 
             var type = typeof(TEntity);
-            if (!_repositories.ContainsKey(type))
+            if (!_readonlyRepositories.ContainsKey(type))
             {
-                _repositories[type] = new BaseReadonlyRepository<TEntity>(DbContext);
+                _readonlyRepositories[type] = new BaseReadonlyRepository<TEntity>(DbContext);
             }
 
-            return (IBaseReadonlyRepository<TEntity>) _repositories[type];
+            return (IBaseReadonlyRepository<TEntity>) _readonlyRepositories[type];
         }
 
         public IBaseReadWriteRepository<TEntity> GetReadWriteRepository<TEntity>()
             where TEntity : class, IEntity
         {
-            if (_repositories == null)
+            if (_readwriteRepositories == null)
             {
-                _repositories = new Dictionary<Type, object>();
+                _readwriteRepositories = new Dictionary<Type, object>();
             }
 
             var type = typeof(TEntity);
-            if (!_repositories.ContainsKey(type))
+            if (!_readwriteRepositories.ContainsKey(type))
             {
-                _repositories[type] = new BaseReadWriteRepository<TEntity>(DbContext);
+                _readwriteRepositories[type] = new BaseReadWriteRepository<TEntity>(DbContext);
             }
 
-            return (IBaseReadWriteRepository<TEntity>) _repositories[type];
+            return (IBaseReadWriteRepository<TEntity>) _readwriteRepositories[type];
         }
 
         public TIRepository GetCustomRepository<TEntity, TIRepository>()
-            where TEntity : class, IEntity
+            where TEntity : class
             where TIRepository : class, IBaseReadonlyRepository<TEntity>
         {
             var customRepo = DbContext.GetService<TIRepository>();
@@ -101,7 +100,8 @@ internal class UnitOfWork<TContext>
             {
                 if (disposing)
                 {
-                    _repositories?.Clear();
+                    _readonlyRepositories?.Clear();
+                    _readwriteRepositories?.Clear();
                     
                     DbContext.Dispose();
                 }
