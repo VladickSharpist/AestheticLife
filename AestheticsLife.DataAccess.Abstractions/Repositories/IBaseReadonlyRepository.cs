@@ -4,7 +4,7 @@ using AestheticLife.DataAccess.Domain.Abstractions.Interfaces;
 namespace AestheticsLife.DataAccess.Abstractions;
 
 public interface IBaseReadonlyRepository<TEntity>
-    where TEntity : class, IEntity
+    where TEntity : class
 {
     IEnumerable<TEntity> Get(
         Expression<Func<TEntity, bool>> filter = null,
