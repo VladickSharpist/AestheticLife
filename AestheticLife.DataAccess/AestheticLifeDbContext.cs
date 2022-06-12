@@ -1,4 +1,6 @@
 ﻿using AestheticLife.DataAccess.Domain.Extensions;
+using AestheticLife.DataAccess.Domain.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AestheticLife.DataAccess;

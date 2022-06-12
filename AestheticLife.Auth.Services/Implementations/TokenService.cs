@@ -80,6 +80,7 @@ internal class TokenService : ITokenService
             Encoding.UTF8.GetString(base64EncodedBytes));
         return decodedToken;
     }
+
     private SigningCredentials GetSigningCredentials()
     {
         var jwtConfig = _configurationHelper.JwtConfig;
@@ -119,5 +120,4 @@ internal class TokenService : ITokenService
         );
         return tokenOptions;
     }
-    
 }

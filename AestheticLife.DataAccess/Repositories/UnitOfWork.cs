@@ -1,4 +1,5 @@
 using AestheticLife.DataAccess.Domain.Abstractions.Interfaces;
+using AestheticLife.DataAccess.Domain.Models;
 using AestheticsLife.DataAccess.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;

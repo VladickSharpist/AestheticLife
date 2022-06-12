@@ -5,6 +5,8 @@ using AutoMapper;
 using AestheticLife.Web.Models.Request;
 using AestheticLife.Web.Models.Response;
 using Microsoft.AspNetCore.Authorization;
+using AestheticLife.Web.Core;
+using AestheticLife.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AestheticLife.Web.Controllers;
