@@ -10,5 +10,17 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .Property(u => u.ActualRefreshToken)
             .IsRequired(false);
+
+        builder
+            .Property(u => u.Name)
+            .IsRequired(false);
+        
+        builder
+            .Property(u => u.Surname)
+            .IsRequired(false);
+        
+        builder
+            .Property(u => u.SecondName)
+            .IsRequired(false);
     }
 }

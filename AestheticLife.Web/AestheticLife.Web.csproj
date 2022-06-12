@@ -20,8 +20,4 @@
       <ProjectReference Include="..\AestheticLife.Web.Core\AestheticLife.Web.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Models2\Response\Profiles" />
-    </ItemGroup>
-
 </Project>

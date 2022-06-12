@@ -10,7 +10,7 @@ public class RegisterUserDto
 
     public string SecondName { get; set; }
 
-    public string DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
 
     public string Email { get; set; }
 
