@@ -1,4 +1,4 @@
-﻿namespace AestheticLife.Web.Models2.Request;
+﻿namespace AestheticLife.Web.Models.Request;
 
 public class ConfirmUserEmailRequestVm
 {

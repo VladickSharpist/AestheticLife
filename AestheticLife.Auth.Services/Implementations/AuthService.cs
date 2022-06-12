@@ -41,13 +41,19 @@ internal class AuthService : IAuthService
             : throw new Exception("Unknown error");
     }
 
-    public async Task<string> LoginAsync(LoginDto dto)
+    public async Task<TokenDto> LoginAsync(LoginDto dto)
     {
         var user = await _userManager.FindByEmailAsync(dto.Email.ToUpper());
-        if (user is null) return "User not found";
+        if (user is null)
+            throw new Exception("User not found");
         var response = await _userManager.CheckPasswordAsync(user, dto.Password);
-        if(!response) return "Wrong password";
-        var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user);
-        return refreshToken;
+        if(!response)
+            throw new Exception("Wrong Password");
+
+        return new TokenDto
+        {
+            RefreshToken = await _tokenService.GenerateRefreshTokenAsync(user),
+            AccessToken = await _tokenService.SetAccessTokenAsync(user)
+        };
     }
 }

@@ -73,7 +73,7 @@ public class UserStore : IUserRoleStore<User>, IUserEmailStore<User>, IUserPassw
         var id = int.Parse(userId);
 
         return (await _unitOfWork
-            .GetReadWriteRepository<User>()
+            .GetReadonlyRepository<User>()
             .GetAsync(u => u.Id == id))
             .FirstOrDefault();
     }
@@ -81,7 +81,7 @@ public class UserStore : IUserRoleStore<User>, IUserEmailStore<User>, IUserPassw
     public async Task<User> FindByNameAsync(string userName, CancellationToken cancellationToken = default)
     {
         return (await _unitOfWork
-                .GetReadWriteRepository<User>()
+                .GetReadonlyRepository<User>()
                 .GetAsync(u => u.UserName == userName))
             .FirstOrDefault();
     }

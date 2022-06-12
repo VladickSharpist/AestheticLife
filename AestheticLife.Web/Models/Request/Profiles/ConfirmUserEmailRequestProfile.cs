@@ -1,7 +1,7 @@
 ﻿using AestheticLife.Auth.Services.Abstractions.Models;
 using AutoMapper;
 
-namespace AestheticLife.Web.Models2.Request.Profiles;
+namespace AestheticLife.Web.Models.Request.Profiles;
 
 public class ConfirmUserEmailRequestProfile : Profile
 {

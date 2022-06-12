@@ -1,31 +1,47 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using AestheticLife.Auth.Services.Abstractions.Interfaces;
 using AestheticLife.Auth.Services.Abstractions.Models;
+using AestheticLife.Core.Abstractions.Helpers;
 using AestheticLife.DataAccess.Domain.Models;
 using AestheticLife.DataAccess.Extensions;
 using AestheticsLife.DataAccess.Abstractions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AestheticLife.Auth.Services.Implementations;
 
 internal class TokenService : ITokenService
 {
     private UserManager<User> _userManager;
-    private IUnitOfWork _unitOfWork;
+    private IConfigurationHelper _configurationHelper;
 
     public TokenService(
-        UserManager<User> userManager,
-        IUnitOfWork unitOfWork)
+        UserManager<User> userManager, IConfigurationHelper configurationHelper)
     {
         _userManager = userManager;
-        _unitOfWork = unitOfWork;
+        _configurationHelper = configurationHelper;
     }
 
-    public async Task<object> RefreshAsync(string refreshToken)
+    public async Task<TokenDto> RefreshAsync(string refreshToken)
     {
-        return new { refreshToken = refreshToken, accessToken = "asdadasdasdad"};
+        var decodedToken = DecodeRefreshToken(refreshToken);
+        var user = await _userManager.FindByEmailAsync(decodedToken.UserEmail);
+        var decodedActualUserRefreshToken = DecodeRefreshToken(user.ActualRefreshToken);
+        if (decodedToken.IsExpired
+            || user is null
+            || decodedActualUserRefreshToken.IsExpired
+            || refreshToken != user.ActualRefreshToken)
+            throw new Exception("Invalid refresh token");
+
+        return new()
+        {
+            RefreshToken = await GenerateRefreshTokenAsync(user),
+            AccessToken = await SetAccessTokenAsync(user)
+        };
     }
 
     public async Task<string> GenerateRefreshTokenAsync(User user)
@@ -35,24 +51,73 @@ internal class TokenService : ITokenService
         {
             UserId = user.Id,
             UserEmail = user.Email,
-            Roles = userRoles
+            Roles = userRoles,
+            ExpiresInMinutes = DateTime.Now.AddMinutes(30)
         };
 
-        return EncodeRefreshToken(refreshToken);
+        return await _userManager.SetActiveRefreshTokenAsync(user, EncodeRefreshToken(refreshToken));
     }
-    
+
     public string EncodeRefreshToken(RefreshTokenDto tokenDto)
     {
         var plainTextBytes = Encoding.UTF8.GetBytes(
             JsonSerializer.Serialize(tokenDto));
         return Convert.ToBase64String(plainTextBytes);
     }
-    
+
+    public async Task<string> SetAccessTokenAsync(User user)
+    {
+        var signingCredentials = GetSigningCredentials();
+        var claims = await GetClaims(user);
+        var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
+        return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+    }
+
     public RefreshTokenDto DecodeRefreshToken(string token)
     {
         var base64EncodedBytes = Convert.FromBase64String(token);
         var decodedToken = JsonSerializer.Deserialize<RefreshTokenDto>(
             Encoding.UTF8.GetString(base64EncodedBytes));
         return decodedToken;
+    }
+
+    private SigningCredentials GetSigningCredentials()
+    {
+        var jwtConfig = _configurationHelper.JwtConfig;
+        var key = Encoding.UTF8.GetBytes(jwtConfig["Secret"]);
+        var secret = new SymmetricSecurityKey(key);
+        return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
+    }
+
+    //think of transfer it to userService
+    private async Task<List<Claim>> GetClaims(User user)
+    {
+        var claims = new List<Claim>
+        {
+            new (ClaimTypes.Email, user.Email),
+            new ("Id", user.Id.ToString())
+        };
+        
+        var roles = await _userManager.GetRolesAsync(user);
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+        
+        return claims;
+    }
+
+    private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
+    {
+        var jwtSettings = _configurationHelper.JwtConfig;
+        var tokenOptions = new JwtSecurityToken
+        (
+            issuer: jwtSettings["ValidIssuer"],
+            audience: jwtSettings["ValidAudience"],
+            claims: claims,
+            expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["ExpiresIn"])),
+            signingCredentials: signingCredentials
+        );
+        return tokenOptions;
     }
 }

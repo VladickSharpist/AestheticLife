@@ -4,6 +4,7 @@ using AestheticLife.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AestheticLife.DataAccess.Migrations
 {
     [DbContext(typeof(AestheticLifeDbContext))]
-    partial class AestheticLifeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220612060359_RemoveUserPassword")]
+    partial class RemoveUserPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +43,7 @@ namespace AestheticLife.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("AestheticLife.DataAccess.Domain.Models.User", b =>
@@ -111,7 +113,7 @@ namespace AestheticLife.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("AestheticLife.DataAccess.Domain.Models.UserRole", b =>
@@ -126,7 +128,7 @@ namespace AestheticLife.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRole", (string)null);
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("AestheticLife.DataAccess.Domain.Models.UserRole", b =>

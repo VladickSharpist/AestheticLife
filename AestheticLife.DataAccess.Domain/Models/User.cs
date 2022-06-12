@@ -11,10 +11,7 @@ public class User : IdentityUser<long>, IEntity
 
     public string SecondName { get; set; }
 
-    public string DateOfBirth { get; set; }
-
-    public string Password { get; set; }
-
+    public DateTime DateOfBirth { get; set; }
 
     public IEnumerable<UserRole> UserRoles { get; set; }
     

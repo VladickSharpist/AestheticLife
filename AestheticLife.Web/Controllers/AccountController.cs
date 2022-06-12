@@ -1,8 +1,9 @@
 using AestheticLife.Auth.Services.Abstractions.Interfaces;
 using AestheticLife.Auth.Services.Abstractions.Models;
 using AestheticLife.Web.Core.Controllers;
-using AestheticLife.Web.Models2.Request;
 using AutoMapper;
+using AestheticLife.Web.Models.Request;
+using AestheticLife.Web.Models.Response;
 using Microsoft.AspNetCore.Authorization;
 using AestheticLife.Web.Core;
 using AestheticLife.Web.Models;
@@ -16,7 +17,7 @@ public class AccountController : BaseWebController
 {
     private readonly IAuthService _authService;
     private readonly IEmailService _emailService;
-    private ITokenService _tokenService;
+    private readonly ITokenService _tokenService;
 
     public AccountController(
         IAuthService authService,
@@ -32,8 +33,8 @@ public class AccountController : BaseWebController
 
     [AllowAnonymous]
     [HttpPost]
-    public async Task<IActionResult> Registration([FromBody] RegistrationRequestVm model)
-        => Ok(await _authService.RegisterAsync(
+    public async Task<ActionResult<bool>> Registration([FromBody] RegistrationRequestVm model)
+        => new (await _authService.RegisterAsync(
             _mapper.Map<RegisterUserDto>(model)));
 
     [HttpPost]
@@ -42,19 +43,17 @@ public class AccountController : BaseWebController
         await _emailService.SendEmailAsync(_mapper.Map<ConfirmUserEmailDto>(model));
 
         return Ok();
-    } 
-
-    [HttpGet]
-    public async Task<IActionResult> ConfirmEmail(string token, string userId)
-        => Ok(await _emailService.ConfirmEmail(userId, token));
-
-    [HttpPost]
-    public async Task<ActionResult<string>> Login([FromBody] LoginVm model)
-    {
-        return await _authService.LoginAsync(new() {Email = model.Email, Password = model.Password});
     }
 
+    [HttpGet]
+    public async Task<ActionResult<bool>> ConfirmEmail(string token, string userId)
+        => new(await _emailService.ConfirmEmail(userId, token));
+
     [HttpPost]
-    public async Task<ActionResult<object>> Refresh(string refreshToken)
-        => new OkObjectResult(await _tokenService.RefreshAsync(refreshToken));
+    public async Task<ActionResult<LoginResponseVm>> Login([FromBody] LoginRequestVm model)
+        => _mapper.Map<LoginResponseVm>(await _authService.LoginAsync(_mapper.Map<LoginDto>(model)));
+
+    [HttpPost]
+    public async Task<ActionResult<RefreshResponseVm>> Refresh(string refreshToken)
+        => _mapper.Map<RefreshResponseVm>(await _tokenService.RefreshAsync(refreshToken));
 }

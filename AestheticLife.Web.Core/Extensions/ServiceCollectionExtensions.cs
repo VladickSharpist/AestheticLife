@@ -1,12 +1,9 @@
-﻿using AestheticLife.Auth.Services.Extensions;
-using AestheticLife.Core.Abstractions.Helpers;
-using AestheticLife.DataAccess.Extensions;
 ﻿using System.Text;
 using AestheticLife.Auth.Services.Extensions;
 using AestheticLife.Core.Abstractions.Helpers;
+using AestheticLife.DataAccess.Extensions;
 using AestheticLife.DataAccess;
 using AestheticLife.DataAccess.Domain.Models;
-using AestheticLife.DataAccess.Extensions;
 using AestheticLife.DataAccess.Stores;
 using AestheticsLife.Core.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,8 +20,7 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
         => services
-            .AddHelpers(configuration)
-            .AddAuthenticationService();
+            .AddHelpers(configuration);
 
     public static IServiceCollection ApplyCors(
         this IServiceCollection services)
@@ -53,21 +49,50 @@ public static class ServiceCollectionExtensions
         
     public static IServiceCollection AddServices(this IServiceCollection services)
         => services
-            .AddAuthServices();
+            .AddAuthenticationService();
     
-    public static IServiceCollection AddIdentity(this IServiceCollection services)
+    public static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration config)
         => services
-            .AddIdentity<User, Role>()
+            .AddIdentityCore<User>(options =>
+            {
+                options.Tokens.ProviderMap.Add(
+                    "Default",
+                    new TokenProviderDescriptor(typeof(IUserTwoFactorTokenProvider<User>)));
+            })
+            .AddRoles<Role>()
             .AddUserStore<UserStore>()
             .AddRoleStore<RoleStore>()
             .AddEntityFrameworkStores<AestheticLifeDbContext>()
+            .AddDefaultTokenProvider()
             .Services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .ConfigureJWT(config);
+    
+    public static IServiceCollection ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+    {
+        var jwtConfig = configuration.GetSection("JwtConfig");
+        var secretKey = jwtConfig["Secret"];
+        return services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters();
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtConfig["ValidIssuer"],
+                    ValidAudience = jwtConfig["ValidAudience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                    ClockSkew = TimeSpan.Zero
+                };
             })
             .Services;
+    }
 }
