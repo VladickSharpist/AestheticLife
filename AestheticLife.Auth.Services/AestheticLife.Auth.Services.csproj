@@ -9,6 +9,8 @@
     <ItemGroup>
       <ProjectReference Include="..\AestheticLife.Auth.Services.Abstractions\AestheticLife.Auth.Services.Abstractions.csproj" />
       <ProjectReference Include="..\AestheticLife.DataAccess.Domain\AestheticLife.DataAccess.Domain.csproj" />
+      <ProjectReference Include="..\AestheticLife.DataAccess\AestheticLife.DataAccess.csproj" />
+      <ProjectReference Include="..\AestheticsLife.DataAccess.Abstractions\AestheticsLife.DataAccess.Abstractions.csproj" />
     </ItemGroup>
 
     <ItemGroup>

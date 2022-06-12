@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AestheticLife.DataAccess.Domain.Abstractions.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace AestheticLife.DataAccess.Domain.Models;
 

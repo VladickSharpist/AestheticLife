@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AestheticLife.DataAccess.Domain.Abstractions\AestheticLife.DataAccess.Domain.Abstractions.csproj" />
+      <ProjectReference Include="..\AestheticLife.DataAccess.Domain\AestheticLife.DataAccess.Domain.csproj" />
     </ItemGroup>
 
 </Project>

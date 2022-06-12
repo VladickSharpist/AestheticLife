@@ -1,6 +1,7 @@
 using System.Data;
 using System.Data.Common;
 using AestheticLife.DataAccess.Domain.Abstractions.Interfaces;
+using AestheticLife.DataAccess.Domain.Models;
 using AestheticsLife.DataAccess.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -22,7 +23,7 @@ internal class UnitOfWork<TContext>
         }
 
         public IBaseReadonlyRepository<TEntity> GetReadonlyRepository<TEntity>()
-            where TEntity : class, IEntity
+            where TEntity : class
         {
             if (_repositories == null)
             {
@@ -56,7 +57,7 @@ internal class UnitOfWork<TContext>
         }
 
         public TIRepository GetCustomRepository<TEntity, TIRepository>()
-            where TEntity : class, IEntity
+            where TEntity : class
             where TIRepository : class, IBaseReadonlyRepository<TEntity>
         {
             var customRepo = DbContext.GetService<TIRepository>();
