@@ -44,9 +44,12 @@ internal class AuthService : IAuthService
     public async Task<TokenDto> LoginAsync(LoginDto dto)
     {
         var user = await _userManager.FindByEmailAsync(dto.Email.ToUpper());
-        if (user is null) throw new Exception("User not found");
+        if (user is null)
+            throw new Exception("User not found");
         var response = await _userManager.CheckPasswordAsync(user, dto.Password);
-        if(!response) throw new Exception("Wrong Password");
+        if(!response)
+            throw new Exception("Wrong Password");
+
         return new TokenDto
         {
             RefreshToken = await _tokenService.GenerateRefreshTokenAsync(user),

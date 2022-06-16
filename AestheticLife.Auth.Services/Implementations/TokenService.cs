@@ -31,12 +31,12 @@ internal class TokenService : ITokenService
         var decodedToken = DecodeRefreshToken(refreshToken);
         var user = await _userManager.FindByEmailAsync(decodedToken.UserEmail);
         var decodedActualUserRefreshToken = DecodeRefreshToken(user.ActualRefreshToken);
-        if (decodedToken.IsExpired 
-            || user is null 
+        if (decodedToken.IsExpired
+            || user is null
             || decodedActualUserRefreshToken.IsExpired
-            || decodedToken != decodedActualUserRefreshToken)
+            || refreshToken != user.ActualRefreshToken)
             throw new Exception("Invalid refresh token");
-        
+
         return new()
         {
             RefreshToken = await GenerateRefreshTokenAsync(user),
@@ -57,7 +57,7 @@ internal class TokenService : ITokenService
 
         return await _userManager.SetActiveRefreshTokenAsync(user, EncodeRefreshToken(refreshToken));
     }
-    
+
     public string EncodeRefreshToken(RefreshTokenDto tokenDto)
     {
         var plainTextBytes = Encoding.UTF8.GetBytes(

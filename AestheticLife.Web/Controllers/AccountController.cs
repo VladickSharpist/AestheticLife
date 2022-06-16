@@ -43,7 +43,7 @@ public class AccountController : BaseWebController
         await _emailService.SendEmailAsync(_mapper.Map<ConfirmUserEmailDto>(model));
 
         return Ok();
-    } 
+    }
 
     [HttpGet]
     public async Task<ActionResult<bool>> ConfirmEmail(string token, string userId)
