@@ -11,4 +11,6 @@ public interface IConfigurationHelper
     string Localhost { get; }
 
     IConfigurationSection JwtConfig { get; }
+    
+    string LocalStorageAbsolutePath { get; }
 }

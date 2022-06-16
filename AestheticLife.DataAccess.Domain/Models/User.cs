@@ -16,4 +16,6 @@ public class User : IdentityUser<long>, IEntity
     public IEnumerable<UserRole> UserRoles { get; set; }
     
     public string ActualRefreshToken { get; set; }
+
+    public IEnumerable<Exercise> Exercises { get; set; }
 }

@@ -22,6 +22,65 @@ namespace AestheticLife.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("AestheticLife.DataAccess.Domain.Models.Exercise", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("FileId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("OwnerId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId")
+                        .IsUnique();
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Exercise", (string)null);
+                });
+
+            modelBuilder.Entity("AestheticLife.DataAccess.Domain.Models.File", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<double?>("Duration")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Hash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RelativePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("File", (string)null);
+                });
+
             modelBuilder.Entity("AestheticLife.DataAccess.Domain.Models.Role", b =>
                 {
                     b.Property<long>("Id")
@@ -129,6 +188,23 @@ namespace AestheticLife.DataAccess.Migrations
                     b.ToTable("UserRole", (string)null);
                 });
 
+            modelBuilder.Entity("AestheticLife.DataAccess.Domain.Models.Exercise", b =>
+                {
+                    b.HasOne("AestheticLife.DataAccess.Domain.Models.File", null)
+                        .WithOne()
+                        .HasForeignKey("AestheticLife.DataAccess.Domain.Models.Exercise", "FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AestheticLife.DataAccess.Domain.Models.User", "Owner")
+                        .WithMany("Exercises")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("AestheticLife.DataAccess.Domain.Models.UserRole", b =>
                 {
                     b.HasOne("AestheticLife.DataAccess.Domain.Models.Role", "Role")
@@ -155,6 +231,8 @@ namespace AestheticLife.DataAccess.Migrations
 
             modelBuilder.Entity("AestheticLife.DataAccess.Domain.Models.User", b =>
                 {
+                    b.Navigation("Exercises");
+
                     b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
