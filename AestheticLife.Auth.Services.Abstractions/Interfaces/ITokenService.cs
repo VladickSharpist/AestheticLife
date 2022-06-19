@@ -10,9 +10,9 @@ public interface ITokenService
 
     Task<string> GenerateRefreshTokenAsync(User user);
 
-    RefreshTokenDto DecodeRefreshToken(string token);
+    TToken DecodeToken<TToken>(string token);
 
-    string EncodeRefreshToken(RefreshTokenDto tokenDto);
+    string EncodeToken(object tokenDto);
 
     Task<string> SetAccessTokenAsync(User user);
 

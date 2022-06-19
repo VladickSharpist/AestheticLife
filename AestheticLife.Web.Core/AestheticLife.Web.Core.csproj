@@ -29,6 +29,8 @@
       <ProjectReference Include="..\AestheticLife.Auth.Services\AestheticLife.Auth.Services.csproj" />
       <ProjectReference Include="..\AestheticLife.Core\AestheticLife.Core.csproj" />
       <ProjectReference Include="..\AestheticLife.DataAccess\AestheticLife.DataAccess.csproj" />
+      <ProjectReference Include="..\AestheticsLife.File.Services\AestheticsLife.File.Services.csproj" />
+      <ProjectReference Include="..\AestheticsLife.Training.Services\AestheticsLife.Training.Services.csproj" />
     </ItemGroup>
 
 </Project>

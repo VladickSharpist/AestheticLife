@@ -7,11 +7,9 @@ using AestheticLife.Web.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDatabase(builder.Configuration)
-    .AddWebMapper()
-    .AddAuthServicesMapper()
-    .AddUnitOfWork<AestheticLifeDbContext>()
-    .AddCustomRepositories()
     .AddInfrastructure(builder.Configuration)
+    .AddWebMapper()
+    .AddUnitOfWork<AestheticLifeDbContext>()
     .AddServices()
     .AddIdentity(builder.Configuration)
     .AddValidator()
