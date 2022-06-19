@@ -14,7 +14,7 @@ internal class BaseReadWriteRepository<TEntity>
     {
     }
 
-    public virtual void Save(TEntity model)
+    public virtual long Save(TEntity model)
     {
         if (model.Id > 0)
         {
@@ -26,9 +26,10 @@ internal class BaseReadWriteRepository<TEntity>
         }
             
         _dbContext.SaveChanges();
+        return model.Id;
     }
 
-    public virtual async Task SaveAsync(TEntity model)
+    public virtual async Task<long> SaveAsync(TEntity model)
     {
         if (model.Id > 0)
         {
@@ -40,6 +41,8 @@ internal class BaseReadWriteRepository<TEntity>
         }
 
         await _dbContext.SaveChangesAsync();
+        
+        return model.Id;
     }
 
     public void SaveChanges()

@@ -6,9 +6,9 @@ public interface IBaseReadWriteRepository<TEntity>
     : IBaseReadonlyRepository<TEntity>
     where TEntity : class, IEntity
 {
-    void Save(TEntity model);
+    long Save(TEntity model);
 
-    Task SaveAsync(TEntity model);
+    Task<long> SaveAsync(TEntity model);
 
     void SaveChanges();
 

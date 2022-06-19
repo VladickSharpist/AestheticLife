@@ -28,9 +28,9 @@ internal class TokenService : ITokenService
 
     public async Task<TokenDto> RefreshAsync(string refreshToken)
     {
-        var decodedToken = DecodeRefreshToken(refreshToken);
+        var decodedToken = DecodeToken<RefreshTokenDto>(refreshToken);
         var user = await _userManager.FindByEmailAsync(decodedToken.UserEmail);
-        var decodedActualUserRefreshToken = DecodeRefreshToken(user.ActualRefreshToken);
+        var decodedActualUserRefreshToken = DecodeToken<RefreshTokenDto>(user.ActualRefreshToken);
         if (decodedToken.IsExpired
             || user is null
             || decodedActualUserRefreshToken.IsExpired
@@ -55,10 +55,10 @@ internal class TokenService : ITokenService
             ExpiresInMinutes = DateTime.Now.AddMinutes(30)
         };
 
-        return await _userManager.SetActiveRefreshTokenAsync(user, EncodeRefreshToken(refreshToken));
+        return await _userManager.SetActiveRefreshTokenAsync(user, EncodeToken(refreshToken));
     }
 
-    public string EncodeRefreshToken(RefreshTokenDto tokenDto)
+    public string EncodeToken(object tokenDto)
     {
         var plainTextBytes = Encoding.UTF8.GetBytes(
             JsonSerializer.Serialize(tokenDto));
@@ -73,10 +73,10 @@ internal class TokenService : ITokenService
         return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
     }
 
-    public RefreshTokenDto DecodeRefreshToken(string token)
+    public TToken DecodeToken<TToken>(string token)
     {
         var base64EncodedBytes = Convert.FromBase64String(token);
-        var decodedToken = JsonSerializer.Deserialize<RefreshTokenDto>(
+        var decodedToken = JsonSerializer.Deserialize<TToken>(
             Encoding.UTF8.GetString(base64EncodedBytes));
         return decodedToken;
     }
