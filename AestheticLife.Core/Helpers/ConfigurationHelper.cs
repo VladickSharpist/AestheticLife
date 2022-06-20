@@ -29,7 +29,11 @@ public class ConfigurationHelper : IConfigurationHelper
     public IConfigurationSection JwtConfig => _configuration
         .GetSection("JwtConfig");
 
-    public string LocalStorageAbsolutePath => _configuration
-        .GetSection("LocalStorageAbsolutePath")
+    public string LocalStoragePath => _configuration
+        .GetSection("LocalStoragePath")
+        .Value;
+    
+    public string WebStorageAccessLink => _configuration
+        .GetSection("WebStorageAccessLink")
         .Value;
 }

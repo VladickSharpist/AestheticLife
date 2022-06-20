@@ -4,5 +4,5 @@ namespace AestheticLife.DataAccess.Domain.Abstractions.Interfaces;
 
 public interface IEntityWithFile : IEntity
 {
-    public long FileId { get; set; }
+    public long? FileId { get; set; }
 }

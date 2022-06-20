@@ -5,8 +5,7 @@ namespace AestheticLife.DataAccess;
 
 public class AestheticLifeDbContextFactory : IDesignTimeDbContextFactory<AestheticLifeDbContext>
 {
-    private const string CONNECTING_STRING = "Server=(LocalDb)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|AestheticLife.mdf;Database=AestheticLife;Trusted_Connection=True";
-
+    private const string CONNECTING_STRING = "Server=(LocalDb)\\MSSQLLocalDB;Database=AestheticLife;Trusted_Connection=True";
 
     public AestheticLifeDbContext CreateDbContext(string[] args)
     {

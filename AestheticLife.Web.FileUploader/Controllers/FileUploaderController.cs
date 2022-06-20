@@ -16,6 +16,7 @@ public class FileUploaderController : BaseWebController
         _fileService = fileService;
     }
 
+    [HttpPost]
     public async Task<IActionResult> UploadFileForEntity([FromForm] UploadFileForEntityRequestVm model)
     {
         await _fileService.UploadFileForEntry(_mapper.Map<UploadFileDto>(model));

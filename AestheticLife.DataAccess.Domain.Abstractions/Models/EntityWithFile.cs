@@ -4,5 +4,5 @@ namespace AestheticLife.DataAccess.Domain.Abstractions.Models;
 
 public class EntityWithFile : BaseEntity, IEntityWithFile
 {
-    public long FileId { get; set; }
+    public long? FileId { get; set; }
 }

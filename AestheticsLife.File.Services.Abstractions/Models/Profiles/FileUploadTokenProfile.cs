@@ -8,6 +8,8 @@ public class FileUploadTokenProfile : Profile
     {
         CreateMap<AestheticLife.DataAccess.Domain.Models.File, FileUploadTokenDto>()
             .ForMember(dto => dto.FileId, opt => 
-                opt.MapFrom(db => db.Id));
+                opt.MapFrom(db => db.Id))
+            .ForMember(dto => dto.RelativePath, opt =>
+                opt.MapFrom(m => $"{m.RelativePath}\\{m.Name}.{m.Extension}"));
     }
 }

@@ -9,8 +9,4 @@ public class FileEntryDto
     public string Name { get; set; }
 
     public string Extension { get; set; }
-
-    public double? Duration { get; set; }
-
-    public string? Hash { get; set; }
 }

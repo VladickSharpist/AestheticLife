@@ -12,5 +12,7 @@ public interface IConfigurationHelper
 
     IConfigurationSection JwtConfig { get; }
     
-    string LocalStorageAbsolutePath { get; }
+    string LocalStoragePath { get; }
+    
+    string WebStorageAccessLink { get; }
 }

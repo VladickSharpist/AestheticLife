@@ -23,11 +23,13 @@ if (app.Environment.IsDevelopment())
 {
 
 }
-
 app.UseHttpsRedirection();
 
+app.UseRouting();
+app.UseCors(builder.Services.GetUsingCors());
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.MigrateDbContext<AestheticLifeDbContext>().Run();

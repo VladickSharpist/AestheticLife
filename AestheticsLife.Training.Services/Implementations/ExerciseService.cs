@@ -14,10 +14,11 @@ public class ExerciseService : IExerciseService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public ExerciseService(IFileService fileService, IUnitOfWork unitOfWork)
+    public ExerciseService(IFileService fileService, IUnitOfWork unitOfWork, IMapper mapper)
     {
         _fileService = fileService;
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
     public async Task<long> AddExerciseAsync(ExerciseDto dto)
