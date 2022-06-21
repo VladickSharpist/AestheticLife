@@ -10,5 +10,6 @@ public static class ServiceCollectionExtension
         => services
             .AddScoped<IAuthService, AuthService>()
             .AddScoped<IEmailService, EmailService>()
-            .AddScoped<ITokenService, TokenService>();
+            .AddScoped<ITokenService, TokenService>()
+            .AddScoped<IUserService, UserService>();
 }

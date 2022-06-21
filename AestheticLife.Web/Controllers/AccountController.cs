@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using AestheticLife.Auth.Services.Abstractions.Interfaces;
 using AestheticLife.Auth.Services.Abstractions.Models;
 using AestheticLife.Web.Core.Controllers;
@@ -18,17 +19,23 @@ public class AccountController : BaseWebController
     private readonly IAuthService _authService;
     private readonly IEmailService _emailService;
     private readonly ITokenService _tokenService;
+    private readonly IUserService _userService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public AccountController(
         IAuthService authService,
         IMapper mapper,
         IEmailService emailService,
-        ITokenService tokenService)
+        ITokenService tokenService,
+        IUserService userService,
+        IHttpContextAccessor httpContextAccessor)
         :base(mapper)
     {
         _authService = authService;
         _emailService = emailService;
         _tokenService = tokenService;
+        _userService = userService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [AllowAnonymous]
@@ -56,4 +63,13 @@ public class AccountController : BaseWebController
     [HttpPost]
     public async Task<ActionResult<RefreshResponseVm>> Refresh(string refreshToken)
         => _mapper.Map<RefreshResponseVm>(await _tokenService.RefreshAsync(refreshToken));
+
+    [Authorize]
+    [HttpGet]
+    public async Task<ActionResult<CurrentUserResponseVm>> CurrentUserData()
+    {
+       var userId = _httpContextAccessor.HttpContext.User.Claims.SingleOrDefault(c => c.Type == "Id").Value;
+
+        return Ok(_mapper.Map<CurrentUserResponseVm>(await _userService.GetCurrentUserAsync(userId)));
+    }
 }
