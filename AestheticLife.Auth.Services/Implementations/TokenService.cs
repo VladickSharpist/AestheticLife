@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using AestheticLife.Auth.Services.Abstractions.Interfaces;
 using AestheticLife.Auth.Services.Abstractions.Models;
+using AestheticLife.Auth.Services.Abstractions.Models.Records;
 using AestheticLife.Core.Abstractions.Helpers;
 using AestheticLife.DataAccess.Domain.Models;
 using AestheticLife.DataAccess.Extensions;
@@ -29,33 +30,35 @@ internal class TokenService : ITokenService
     public async Task<TokenDto> RefreshAsync(string refreshToken)
     {
         var decodedToken = DecodeToken<RefreshTokenDto>(refreshToken);
-        var user = await _userManager.FindByEmailAsync(decodedToken.UserEmail);
+        var user = await _userManager.FindByIdAsync(decodedToken.UserId.ToString());
         var decodedActualUserRefreshToken = DecodeToken<RefreshTokenDto>(user.ActualRefreshToken);
         if (decodedToken.IsExpired
             || user is null
             || decodedActualUserRefreshToken.IsExpired
             || refreshToken != user.ActualRefreshToken)
             throw new Exception("Invalid refresh token");
-
+        var refreshTokenRecord = await GenerateRefreshTokenAsync(user);
+        var accessTokenRecord = await SetAccessTokenAsync(user);
         return new()
         {
-            RefreshToken = await GenerateRefreshTokenAsync(user),
-            AccessToken = await SetAccessTokenAsync(user)
+            RefreshToken = refreshTokenRecord.refreshToken,
+            AccessToken = accessTokenRecord.accessToken,
+            RefreshTokenExpiresAt = refreshTokenRecord.expiresAt,
+            AccessTokenExpiresAt = accessTokenRecord.expiresAt
         };
     }
 
-    public async Task<string> GenerateRefreshTokenAsync(User user)
+    public async Task<RefreshTokenRecord> GenerateRefreshTokenAsync(User user)
     {
-        var userRoles = await _userManager.GetRolesAsync(user);
         var refreshToken = new RefreshTokenDto
         {
             UserId = user.Id,
-            UserEmail = user.Email,
-            Roles = userRoles,
             ExpiresInMinutes = DateTime.Now.AddMinutes(30)
         };
-
-        return await _userManager.SetActiveRefreshTokenAsync(user, EncodeToken(refreshToken));
+        var encodedToken = await _userManager.SetActiveRefreshTokenAsync(user, EncodeToken(refreshToken));
+        return new(
+            encodedToken, 
+            refreshToken.ExpiresInMinutes.ToString("yyyy-MM-ddTHH:mm:ss"));
     }
 
     public string EncodeToken(object tokenDto)
@@ -65,12 +68,13 @@ internal class TokenService : ITokenService
         return Convert.ToBase64String(plainTextBytes);
     }
 
-    public async Task<string> SetAccessTokenAsync(User user)
+    public async Task<AccessTokenRecord> SetAccessTokenAsync(User user)
     {
         var signingCredentials = GetSigningCredentials();
         var claims = await GetClaims(user);
-        var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
-        return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+        var tokenOptionsRecord = GenerateTokenOptions(signingCredentials, claims);
+        var encodedAccessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptionsRecord.token);
+        return new(encodedAccessToken, tokenOptionsRecord.expiresAt);
     }
 
     public TToken DecodeToken<TToken>(string token)
@@ -107,17 +111,18 @@ internal class TokenService : ITokenService
         return claims;
     }
 
-    private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
+    private TokenOptionsRecord GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
     {
         var jwtSettings = _configurationHelper.JwtConfig;
+        var expireTime = DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["ExpiresIn"]));
         var tokenOptions = new JwtSecurityToken
         (
             issuer: jwtSettings["ValidIssuer"],
             audience: jwtSettings["ValidAudience"],
             claims: claims,
-            expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["ExpiresIn"])),
+            expires: expireTime,
             signingCredentials: signingCredentials
         );
-        return tokenOptions;
+        return new (tokenOptions, expireTime.ToString("yyyy-MM-ddTHH:mm:ss"));
     }
 }
