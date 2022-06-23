@@ -70,7 +70,7 @@ public class UserStore : IUserRoleStore<User>, IUserEmailStore<User>, IUserPassw
 
     public async Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken = default)
     {
-        var id = int.Parse(userId);
+        var id = long.Parse(userId);
 
         return (await _unitOfWork
             .GetReadonlyRepository<User>()

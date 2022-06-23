@@ -37,8 +37,7 @@ public class AccountController : BaseWebController
         _userService = userService;
         _httpContextAccessor = httpContextAccessor;
     }
-
-    [AllowAnonymous]
+    
     [HttpPost]
     public async Task<ActionResult<bool>> Registration([FromBody] RegistrationRequestVm model)
         => new (await _authService.RegisterAsync(
@@ -52,7 +51,7 @@ public class AccountController : BaseWebController
         return Ok();
     }
 
-    [HttpGet]
+    [HttpPost]
     public async Task<ActionResult<bool>> ConfirmEmail(string token, string userId)
         => new(await _emailService.ConfirmEmail(userId, token));
 

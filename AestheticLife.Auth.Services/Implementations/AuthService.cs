@@ -50,10 +50,14 @@ internal class AuthService : IAuthService
         if(!response)
             throw new Exception("Wrong Password");
 
-        return new TokenDto
+        var refreshTokenRecord = await _tokenService.GenerateRefreshTokenAsync(user);
+        var accessTokenRecord = await _tokenService.SetAccessTokenAsync(user);
+        return new()
         {
-            RefreshToken = await _tokenService.GenerateRefreshTokenAsync(user),
-            AccessToken = await _tokenService.SetAccessTokenAsync(user)
+            RefreshToken = refreshTokenRecord.refreshToken,
+            AccessToken = accessTokenRecord.accessToken,
+            RefreshTokenExpiresAt = refreshTokenRecord.expiresAt,
+            AccessTokenExpiresAt = accessTokenRecord.expiresAt
         };
     }
 }
