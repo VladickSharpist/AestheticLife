@@ -2,7 +2,7 @@
 
 namespace AestheticLife.Auth.Services.Abstractions.Interfaces;
 
-public interface IUserService
+public interface IUserSetter
 {
-    Task SetCurrentUserAsync(string userId);
+    UserDto User { set; }
 }

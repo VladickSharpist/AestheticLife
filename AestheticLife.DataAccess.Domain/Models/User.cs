@@ -14,7 +14,7 @@ public class User : IdentityUser<long>, IEntity
     public DateTime DateOfBirth { get; set; }
 
     public IEnumerable<UserRole> UserRoles { get; set; }
-    
+
     public string ActualRefreshToken { get; set; }
 
     public IEnumerable<Exercise> Exercises { get; set; }

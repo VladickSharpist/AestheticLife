@@ -92,7 +92,7 @@ public class UserStore : IUserRoleStore<User>, IUserEmailStore<User>, IUserPassw
         var userRolesRepository = _unitOfWork.GetCustomRepository<UserRole, IUserRoleRepository>();
         var role = (await rolesRepository.GetAsync(role => role.Name == roleName)).FirstOrDefault();
 
-        var userRole = new UserRole()
+        var userRole = new UserRole
         {
             RoleId = role.Id,
             UserId = user.Id
