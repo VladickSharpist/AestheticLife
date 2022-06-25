@@ -1,8 +1,9 @@
 ﻿using AestheticLife.Auth.Services.Abstractions.Models;
+using AestheticLife.DataAccess.Domain.Models;
 
 namespace AestheticLife.Auth.Services.Abstractions.Interfaces;
 
-public interface IUserService
+public interface IUserGetter
 {
-    Task SetCurrentUserAsync(string userId);
+    UserDto User { get; }
 }
