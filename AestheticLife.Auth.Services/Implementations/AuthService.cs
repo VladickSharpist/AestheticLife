@@ -5,7 +5,9 @@ using AestheticLife.DataAccess.Domain.Models;
 using AutoMapper;
 ﻿using AestheticLife.Auth.Services.Abstractions.Interfaces;
 using AestheticLife.Auth.Services.Abstractions.Models;
+using AestheticLife.Core.Abstractions.Constants;
 using AestheticLife.DataAccess.Domain.Models;
+using AestheticLife.DataAccess.Domain.Models.Configurations;
 using Microsoft.AspNetCore.Identity;
 
 namespace AestheticLife.Auth.Services.Implementations;
@@ -32,13 +34,20 @@ internal class AuthService : IAuthService
 
     public async Task<bool> RegisterAsync(RegisterUserDto userDto)
     {
-        // circus dont't look
         if (await _userManager.FindByEmailAsync(userDto.Email.ToUpper()) is not null)
             throw new Exception("User with this email already exists");
 
-        return (await _userManager.CreateAsync(_mapper.Map<User>(userDto), userDto.Password)).Succeeded
-            ? true
-            : throw new Exception("Unknown error");
+        var user = _mapper.Map<User>(userDto);
+        var registerResult = await _userManager.CreateAsync(user, userDto.Password);
+        if (!registerResult.Succeeded)
+            throw new Exception("Unknown error");
+
+        var addingToRoleResult = await _userManager.AddToRoleAsync(user, RoleConstants.ROLE_USER);
+        if (!addingToRoleResult.Succeeded)
+            throw new Exception($"An adding the user \"{user.UserName}\" with the email \"{user.Email}\" " +
+                                $"to the role \"{RoleConstants.ROLE_USER}\" is failed.");
+
+        return true;
     }
 
     public async Task<TokenDto> LoginAsync(LoginDto dto)

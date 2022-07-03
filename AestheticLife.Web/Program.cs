@@ -1,4 +1,3 @@
-using AestheticLife.Auth.Services.Abstractions.Extesions;
 using AestheticLife.DataAccess;
 using AestheticLife.DataAccess.Extensions;
 using AestheticLife.Web.Core.Extensions;
@@ -10,8 +9,8 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddWebMapper()
     .AddUnitOfWork<AestheticLifeDbContext>()
-    .AddServices()
     .AddIdentity(builder.Configuration)
+    .AddServices()
     .AddValidator()
     .ApplyCors()
     .AddControllers().Services
@@ -19,17 +18,5 @@ builder.Services
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
-
-app.UseHttpsRedirection();
-
-app.UseRouting();
-app.UseCors(builder.Services.GetUsingCors());
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
+app.ApplyMiddlewares(builder);
 app.MigrateDbContext<AestheticLifeDbContext>().Run();
