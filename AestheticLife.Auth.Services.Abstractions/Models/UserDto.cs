@@ -13,4 +13,6 @@ public class UserDto
     public string MiddleName { get; set; }
 
     public string Email { get; set; }
+
+    public IEnumerable<string> Roles { get; set; }
 }

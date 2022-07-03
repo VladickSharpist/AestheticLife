@@ -10,8 +10,8 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddFileUploaderWebMapper()
     .AddUnitOfWork<AestheticLifeDbContext>()
-    .AddServices()
     .AddIdentity(builder.Configuration)
+    .AddServices()
     .ApplyCors()
     .AddControllers()
     .Services
@@ -19,17 +19,5 @@ builder.Services
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-
-}
-app.UseHttpsRedirection();
-
-app.UseRouting();
-app.UseCors(builder.Services.GetUsingCors());
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
+app.ApplyMiddlewares(builder);
 app.MigrateDbContext<AestheticLifeDbContext>().Run();
