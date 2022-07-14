@@ -22,7 +22,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired(false);
 
         builder
-            .Property(u => u.SecondName)
+            .Property(u => u.MiddleName)
             .IsRequired(false);
 
         builder

@@ -26,6 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Aesthetic.SignalR.Services.Abstractions\Aesthetic.SignalR.Services.Abstractions.csproj" />
       <ProjectReference Include="..\AestheticLife.Auth.Services\AestheticLife.Auth.Services.csproj" />
       <ProjectReference Include="..\AestheticLife.Core\AestheticLife.Core.csproj" />
       <ProjectReference Include="..\AestheticLife.DataAccess\AestheticLife.DataAccess.csproj" />
