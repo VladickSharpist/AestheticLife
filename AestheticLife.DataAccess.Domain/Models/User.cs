@@ -9,7 +9,7 @@ public class User : IdentityUser<long>, IEntity
 
     public string Surname { get; set; }
 
-    public string SecondName { get; set; }
+    public string MiddleName { get; set; }
 
     public DateTime DateOfBirth { get; set; }
 

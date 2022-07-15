@@ -1,5 +1,7 @@
-﻿using AestheticLife.Web.Core.MiddleWares;
+﻿using Aesthetic.SignalR.Services.Abstractions.Hubs;
+using AestheticLife.Web.Core.MiddleWares;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 
 namespace AestheticLife.Web.Core.Extensions;

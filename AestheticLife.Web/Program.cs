@@ -1,3 +1,4 @@
+using Aesthetic.SignalR.Services.Abstractions.Hubs;
 using AestheticLife.DataAccess;
 using AestheticLife.DataAccess.Extensions;
 using AestheticLife.Web.Core.Extensions;
@@ -11,6 +12,8 @@ builder.Services
     .AddUnitOfWork<AestheticLifeDbContext>()
     .AddIdentity(builder.Configuration)
     .AddServices()
+    .AddSignalR()
+    .Services
     .AddValidator()
     .ApplyCors()
     .AddControllers().Services
@@ -19,4 +22,5 @@ builder.Services
 var app = builder.Build();
 
 app.ApplyMiddlewares(builder);
+app.MapHub<NotificationHub>("/notifications");
 app.MigrateDbContext<AestheticLifeDbContext>().Run();

@@ -47,9 +47,10 @@ public static class ServiceCollectionExtensions
                     policy
                         .WithOrigins(cHelper.AllowedOrigins.ToArray())
                         .AllowAnyHeader()
-                        .AllowAnyMethod()));
+                        .AllowAnyMethod()
+                        .AllowCredentials()));
     }
-    
+
     public static string GetUsingCors(this IServiceCollection services)
         => services
             .BuildServiceProvider()

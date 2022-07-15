@@ -10,11 +10,16 @@
         <PackageReference Include="AutoMapper" Version="11.0.1" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
         <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.2" />
+        <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.3" />
+        <PackageReference Include="Microsoft.AspNet.SignalR.JS" Version="2.4.3" />
+        <PackageReference Include="Microsoft.AspNet.SignalR.SystemWeb" Version="2.4.3" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Aesthetic.SignalR.Services.Abstractions\Aesthetic.SignalR.Services.Abstractions.csproj" />
       <ProjectReference Include="..\AestheticLife.Auth.Services.Abstractions\AestheticLife.Auth.Services.Abstractions.csproj" />
       <ProjectReference Include="..\AestheticLife.DataAccess\AestheticLife.DataAccess.csproj" />
       <ProjectReference Include="..\AestheticLife.Web.Core\AestheticLife.Web.Core.csproj" />
