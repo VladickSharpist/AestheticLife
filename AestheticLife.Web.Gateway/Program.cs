@@ -1,9 +1,13 @@
-using AestheticLife.Web.Core.Extensions;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.ApplyCors();
+builder.Services.AddCors(opt => opt
+    .AddPolicy("AestheticsLifePolicy", policy => 
+        policy
+            .WithOrigins("http://localhost:5050")
+            .AllowAnyHeader()
+            .AllowAnyMethod()));
 builder.Services.AddControllers();
 builder.Services.AddOcelot(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
@@ -18,7 +22,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(builder.Services.GetUsingCors());
+app.UseCors("AestheticsLifePolicy");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
