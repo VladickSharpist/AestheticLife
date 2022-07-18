@@ -7,7 +7,8 @@ builder.Services.AddCors(opt => opt
         policy
             .WithOrigins("http://localhost:5050")
             .AllowAnyHeader()
-            .AllowAnyMethod()));
+            .AllowAnyMethod()
+            .AllowCredentials()));
 builder.Services.AddControllers();
 builder.Services.AddOcelot(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
@@ -24,8 +25,10 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors("AestheticsLifePolicy");
 app.UseHttpsRedirection();
+app.UseRouting();
 
 app.UseAuthorization();
+app.UseWebSockets();
 await app.UseOcelot();
 
 app.MapControllers();

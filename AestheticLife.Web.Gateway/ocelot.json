@@ -32,6 +32,17 @@
         }
       ],
       "UpstreamPathTemplate":"/api/FileUploader/{controller}/{action}"
+    },
+    {
+      "DownstreamPathTemplate":"/notifications",
+      "DownstreamScheme":"wss",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 7103
+        }
+      ],
+      "UpstreamPathTemplate":"/notifications"
     }
   ]
 }

@@ -12,7 +12,10 @@ builder.Services
     .AddUnitOfWork<AestheticLifeDbContext>()
     .AddIdentity(builder.Configuration)
     .AddServices()
-    .AddSignalR()
+    .AddSignalR(opt =>
+    {
+        opt.EnableDetailedErrors = true;
+    })
     .Services
     .AddValidator()
     .ApplyCors()
@@ -21,6 +24,7 @@ builder.Services
 
 var app = builder.Build();
 
-app.ApplyMiddlewares(builder);
 app.MapHub<NotificationHub>("/notifications");
+app.ApplyMiddlewares(builder);
+
 app.MigrateDbContext<AestheticLifeDbContext>().Run();
