@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Aesthetic.SignalR.Services.Abstractions.Extensions;
 using AestheticLife.Auth.Services.Abstractions.Extesions;
 using AestheticLife.Auth.Services.Extensions;
 using AestheticLife.Core.Abstractions.Helpers;
@@ -113,4 +114,13 @@ public static class ServiceCollectionExtensions
             })
             .Services;
     }
+
+    public static IServiceCollection AddWebSockets(this IServiceCollection services)
+        => services
+            .AddSignalRUserIdProvider()
+            .AddSignalR(opt =>
+            {
+                opt.EnableDetailedErrors = true;
+            })
+            .Services;
 }

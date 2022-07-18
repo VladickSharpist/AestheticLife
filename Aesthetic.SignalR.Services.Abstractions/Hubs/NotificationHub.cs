@@ -1,4 +1,5 @@
 ﻿using Aesthetic.SignalR.Services.Abstractions.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Aesthetic.SignalR.Services.Abstractions.Hubs;

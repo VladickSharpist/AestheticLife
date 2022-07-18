@@ -42,7 +42,7 @@
           "Port": 7103
         }
       ],
-      "UpstreamPathTemplate":"/notifications"
+      "UpstreamPathTemplate":"/notifications?{catchAll}"
     }
   ]
 }
