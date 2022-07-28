@@ -1,3 +1,4 @@
+using Aesthetic.SignalR.Services.Abstractions.Extensions;
 using Aesthetic.SignalR.Services.Abstractions.Hubs;
 using AestheticLife.DataAccess;
 using AestheticLife.DataAccess.Extensions;
@@ -11,6 +12,7 @@ builder.Services
     .AddWebMapper()
     .AddUnitOfWork<AestheticLifeDbContext>()
     .AddIdentity(builder.Configuration)
+    .AddWebSockets()
     .AddServices()
     .AddSignalR(opt =>
     {

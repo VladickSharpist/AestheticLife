@@ -1,3 +1,5 @@
+using AestheticLife.Web.Gateway.Middlewares;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -17,7 +19,6 @@ builder.Configuration.AddJsonFile("ocelot.json");
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -27,6 +28,8 @@ app.UseCors("AestheticsLifePolicy");
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseMiddleware<WebSocketsMiddleware>();
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseWebSockets();
 await app.UseOcelot();
