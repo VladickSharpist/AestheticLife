@@ -1,0 +1,45 @@
+﻿@page "/counter"
+@inject HttpClient Http
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@foreach (var user in users)
+{
+    <div id="@user.Id">
+        <p>@user.Name</p>
+        <p>@user.Email</p>
+        <p>@user.DateOfBirth</p>
+    </div>
+}
+
+@code {
+    private int currentCount = 0;
+    private List<UserVm> users = new ();
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        users = await Http.GetFromJsonAsync<List<UserVm>>("https://localhost:7090/users");
+    }
+    
+    public class UserVm
+    {
+        public long Id { get; set; }
+    
+        public string Name { get; set; }
+
+        public string Email { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+    }
+}

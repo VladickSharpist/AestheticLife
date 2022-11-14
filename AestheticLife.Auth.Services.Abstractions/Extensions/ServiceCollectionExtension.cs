@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AestheticLife.Auth.Services.Abstractions.Extesions;
+namespace AestheticLife.Auth.Services.Abstractions.Extensions;
 
 public static class ServiceCollectionExtension
 {

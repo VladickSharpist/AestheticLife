@@ -19,6 +19,8 @@ public static class ApplicationBuilderExtension
         if (applicationBuilder.Environment.IsDevelopment())
         {
             applicationBuilder.UseDeveloperExceptionPage();
+            applicationBuilder.UseSwagger();
+            applicationBuilder.UseSwaggerUI();
         }
 
         applicationBuilder.UseHttpsRedirection();
