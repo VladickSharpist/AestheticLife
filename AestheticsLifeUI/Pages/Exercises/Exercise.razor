@@ -1,0 +1,22 @@
+﻿@using AestheticsLifeUI.DataAccess.Models.Exercises
+@if (string.IsNullOrEmpty(Model.FileName))
+{
+    <span>Video is not uploaded</span>
+}
+else if (Model.IsDataReady)
+{
+    <Video Source="@Model.FilePath"></Video>
+}
+else
+{
+    <span>Video is processing</span>
+}
+<Card id="@Model.Id">
+    <CardBody>
+        <CardTitle>@Model.Name</CardTitle>
+    </CardBody>
+</Card>
+
+@code {
+    [Parameter] public ExerciseVm Model { get; set; }
+}

@@ -1,0 +1,15 @@
+﻿@using System.Security.Claims
+<AuthorizeView>
+    <Authorized>
+        <span>Hello, @context.User.Claims.First(c => c.Type == ClaimTypes.Email).Value</span>
+        <a href="Logout" class="nav-link btn btn-link">Log out</a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="Registration">Register</a>
+        <a href="Login" class="nav-link btn btn-link">Login</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    
+}

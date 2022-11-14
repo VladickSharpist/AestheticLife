@@ -1,0 +1,41 @@
+﻿@page "/Exercises"
+@using AestheticsLifeUI.DataAccess.Abstractions
+@using AestheticsLifeUI.DataAccess.Models.Exercises
+<h3>Exercises</h3>
+<AuthorizeView>
+    @if (ExersiceList.Count == 0)
+    {
+        <div>No exercises yet</div>
+        <a href="/exercise/create">Creare your first one</a>
+    }
+    else
+    {
+        <CardDeck Margin=@Margin.Is("cards-margin")>
+            @foreach (var exercise in ExersiceList)
+            {
+                <Exercise Model="@exercise"/>
+            }
+        </CardDeck>
+        <a href="/exercises/create">Create exersice</a>
+    }
+</AuthorizeView>
+
+
+@code {
+
+    [Inject]
+    public IHttpService _HttpService { get; set; }
+
+    public List<ExerciseVm> ExersiceList { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await _HttpService.GetAsync<List<ExerciseVm>>(
+            _HttpService.HttpClient.BaseAddress + "training/exercise");
+        if (response.Success)
+        {
+            ExersiceList = response.Response;
+        }
+    }
+
+}

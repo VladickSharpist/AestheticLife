@@ -1,3 +1,5 @@
+using RabbitMq;
+
 namespace AestheticsLife.File.Services.Abstractions.Models;
 
 public class FileUploadTokenDto

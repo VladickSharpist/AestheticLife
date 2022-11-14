@@ -1,0 +1,57 @@
+﻿@using AestheticsLifeUI.DataAccess.Abstractions
+@using AestheticsLifeUI.Extensions
+@page "/exercises/create"
+<AuthorizeView>
+    <NotAuthorized>
+        You should have an account to create your own exercises
+    </NotAuthorized>
+    <Authorized>
+        <h3>CreateExerciseForm</h3>
+        <input @bind="Model.Name"/>
+        <FileUploader @ref="Uploader" PrepareUploadRequestUrl="@BuildUrl()" NoSubmitButton></FileUploader>
+        <button onclick="@Submit">Submit</button>
+    </Authorized>
+</AuthorizeView>
+@code {
+    [Inject]
+    public IHttpService HttpService { get; set; }
+    [Inject]
+    public AuthenticationStateProvider User { get; set; }
+    
+    public FileUploader Uploader { get; set; }
+
+    private AddExerciseVm Model { get; set; } = new();
+    private long Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var id = await User.GetUserIdAsync();
+        if (id != null)
+        {
+            Model.OwnerId = id.Value;
+        }
+    }
+
+    private async void Submit()
+    {
+        var response = 
+            await HttpService.PostAsync<AddExerciseVm, long>(
+                HttpService.BuildUrl("Exercise", "", "training"),
+                Model);
+        if (response.Success)
+        {
+            Id = response.Response;
+            StateHasChanged();
+            Uploader.PrepareAndUpload();
+        }
+    }
+
+    private string BuildUrl() => HttpService.BuildUrl("Exercise", "prepareFileUpload", "training", Id);
+
+
+    class AddExerciseVm
+    {
+        public string Name { get; set; }
+        public long OwnerId { get; set; }
+    }
+}

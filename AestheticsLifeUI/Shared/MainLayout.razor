@@ -1,0 +1,16 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <main>
+        <div class="top-row px-4">
+            <div style="margin: 0 5px 0">
+                <Link To="Exercises">Exersices</Link>
+            </div>
+            <AuthenticationLinks/>
+        </div>
+        <article class="content px-4">
+            @Body
+        </article> 
+        <Notifications />
+    </main>
+</div>

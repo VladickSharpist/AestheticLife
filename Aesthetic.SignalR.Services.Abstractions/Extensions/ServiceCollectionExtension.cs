@@ -8,5 +8,5 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddSignalRUserIdProvider(this IServiceCollection services)
         => services
-            .AddSingleton<IUserIdProvider, IdUserIdProvider>();
+            .AddSingleton<IUserIdProvider, UserIdProvider>();
 }

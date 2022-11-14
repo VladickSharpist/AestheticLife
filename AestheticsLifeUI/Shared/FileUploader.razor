@@ -1,0 +1,12 @@
+﻿<h3>FileUploader</h3>
+<div>@Message</div>
+<InputFile OnChange="@OnFileInputChange" />
+@if (!NoSubmitButton)
+{
+    <button type="submit" onclick="@PrepareAndUpload">Upload Selected File</button>
+}
+
+@code
+{
+    [Parameter] public bool NoSubmitButton { get; set; }
+}

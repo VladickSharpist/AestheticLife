@@ -1,9 +1,7 @@
 using AestheticLife.Core.Abstractions.Helpers;
-using AestheticLife.Core.FileStorage.Abstractions.Interfaces;
-using AestheticLife.Core.FileStorage.Implementations;
-using AestheticLife.DataAccess.Domain.Models;
+using AestheticLife.Core.Abstractions.Storages;
 using AestheticsLife.Core.Helpers;
-using Microsoft.AspNetCore.Identity;
+using AestheticsLife.Core.Storages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +14,6 @@ public static class ServiceCollectionExtension
         IConfiguration configuration)
         => services
             .AddScoped<IConfigurationHelper>(di => new ConfigurationHelper(configuration))
-            .AddScoped<IUserTwoFactorTokenProvider<User>, EmailConfirmationTokenProvider<User>>()
+            //.AddScoped<IUserTwoFactorTokenProvider<User>, EmailConfirmationTokenProvider<User>>()
             .AddScoped<IFileStorage, LocalFileStorage>();
 }

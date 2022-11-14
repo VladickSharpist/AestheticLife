@@ -6,11 +6,10 @@ namespace AestheticLife.Auth.Services.Extensions;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddAuthenticationService(this IServiceCollection services)
+    public static IServiceCollection AddAuthenticationServices(this IServiceCollection services)
         => services
-            .AddScoped<IAuthService, AuthService>()
-            .AddScoped<IEmailService, EmailService>()
-            .AddScoped<ITokenService, TokenService>();
+            .AddScoped<IAuthService, AuthService>();
+            //.AddScoped<IEmailService, EmailService>();
 
     public static IServiceCollection AddUser(this IServiceCollection services)
         => services

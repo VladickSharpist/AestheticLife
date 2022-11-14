@@ -1,0 +1,8 @@
+﻿@page "/Registration"
+<h3>Registration</h3>
+
+<input @bind="Model.UserName" placeholder="User name"/>
+<input @bind="Model.Email" placeholder="Email"/>
+<input @bind="Model.Password" placeholder="Password" type="password"/>
+<input @bind="Model.ConfirmPassword" placeholder="Repeat password" type="password"/>
+<button class="btn" onclick="@(() => Submit())">Submit</button>

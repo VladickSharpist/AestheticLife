@@ -1,0 +1,48 @@
+{
+  "Routes":[
+    {
+      "DownstreamPathTemplate":"/api/{controller}",
+      "DownstreamScheme":"http",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"training-service",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate":"/training/{controller}"
+    },
+    {
+      "DownstreamPathTemplate":"/api/{controller}",
+      "DownstreamScheme":"http",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"user-service",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate":"/{controller}"
+    },
+    {
+      "DownstreamPathTemplate":"/api/{controller}/{action}",
+      "DownstreamScheme":"http",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"auth-service",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate":"/{controller}/{action}"
+    },
+    {
+      "DownstreamPathTemplate":"/api/{controller}/{action}",
+      "DownstreamScheme":"http",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"file-uploader-service",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate":"/{controller}/{action}"
+    }
+  ]
+}

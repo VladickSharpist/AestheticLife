@@ -9,13 +9,13 @@
     <ItemGroup>
       <ProjectReference Include="..\AestheticLife.Auth.Services.Abstractions\AestheticLife.Auth.Services.Abstractions.csproj" />
       <ProjectReference Include="..\AestheticLife.Core.Abstractions\AestheticLife.Core.Abstractions.csproj" />
-      <ProjectReference Include="..\AestheticLife.DataAccess.Domain.Abstractions\AestheticLife.DataAccess.Domain.Abstractions.csproj" />
-      <ProjectReference Include="..\AestheticsLife.DataAccess.Abstractions\AestheticsLife.DataAccess.Abstractions.csproj" />
       <ProjectReference Include="..\AestheticsLife.File.Services.Abstractions\AestheticsLife.File.Services.Abstractions.csproj" />
+      <ProjectReference Include="..\Logic.Shared.Abstractions\Logic.Shared.Abstractions.csproj" />
+      <ProjectReference Include="..\Logic.Shared\Logic.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="11.0.1" />
+      <PackageReference Include="AutoMapper" Version="12.0.0" />
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,64 @@
+{
+  "Routes":[
+    {
+      "DownstreamPathTemplate":"/api/fileUploader/upload?uploadToken={token}",
+      "DownstreamScheme":"https",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 7168
+        }
+      ],
+      "UpstreamPathTemplate":"/fileUploader/upload?uploadToken={token}"
+    },
+    {
+      "DownstreamPathTemplate":"/api/{controller}",
+      "DownstreamScheme":"http",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 7279
+        }
+      ],
+      "UpstreamPathTemplate":"/training/{controller}"
+    },
+    {
+      "DownstreamPathTemplate":"/api/{controller}",
+      "DownstreamScheme":"https",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 7129
+        },
+        {
+          "Host":"localhost",
+          "Port": 7168
+        }
+      ],
+      "UpstreamPathTemplate":"/{controller}"
+    },
+    {
+      "DownstreamPathTemplate":"/api/{controller}/{action}",
+      "DownstreamScheme":"https",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 7095
+        }
+      ],
+      "UpstreamPathTemplate":"/{controller}/{action}"
+    },
+    {
+      "DownstreamPathTemplate":"/hubs/{path}",
+      "DownstreamScheme":"ws",
+      "DownstreamHostAndPorts":[
+        {
+          "Host":"localhost",
+          "Port": 7112
+        }
+      ],
+      "UpstreamPathTemplate":"/hubs/{path}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]
+    }
+  ]
+}

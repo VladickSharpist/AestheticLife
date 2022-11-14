@@ -1,12 +1,9 @@
-﻿using AestheticLife.DataAccess.Domain.Abstractions.Interfaces;
-using AestheticsLife.File.Services.Abstractions.Models;
+﻿using AestheticsLife.File.Services.Abstractions.Models;
+using Logic.Shared.Abstractions.Models;
 
-namespace AestheticsLife.File.Services.Abstractions;
+namespace AestheticsLife.File.Services.Abstractions.Interfaces;
 
 public interface IFileService
 {
-    public Task<string> CreateFileEntity<TEntityWithFile>(FileEntryDto dto)
-        where TEntityWithFile: class, IEntityWithFile;
-
-    public Task UploadFileForEntry(UploadFileDto dto);
+    public Task<UploadToken> UploadFileForEntry(UploadFileDto dto);
 }

@@ -8,19 +8,18 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.5" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.11" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.11">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.11" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\AestheticLife.Core.Abstractions\AestheticLife.Core.Abstractions.csproj" />
       <ProjectReference Include="..\AestheticLife.DataAccess.Domain\AestheticLife.DataAccess.Domain.csproj" />
-      <ProjectReference Include="..\AestheticsLife.DataAccess.Abstractions\AestheticsLife.DataAccess.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>

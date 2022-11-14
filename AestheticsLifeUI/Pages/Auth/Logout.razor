@@ -1,0 +1,12 @@
+﻿@page "/Logout"
+@using AestheticsLifeUI.Services.Abstractions
+@inject ILoginService LoginService
+@inject NavigationManager NavigationManager
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await LoginService.Logout();
+        NavigationManager.NavigateTo("/Login");
+    }
+}

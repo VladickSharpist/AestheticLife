@@ -1,8 +1,8 @@
 ﻿using AestheticLife.Core.Abstractions.Helpers;
-using AestheticLife.Core.FileStorage.Abstractions.Interfaces;
-using AestheticLife.Core.FileStorage.Abstractions.Models;
+using AestheticLife.Core.Abstractions.Models;
+using AestheticLife.Core.Abstractions.Storages;
 
-namespace AestheticLife.Core.FileStorage.Implementations;
+namespace AestheticsLife.Core.Storages;
 
 internal class LocalFileStorage : IFileStorage
 {
@@ -20,7 +20,7 @@ internal class LocalFileStorage : IFileStorage
         var fullPath = $"{_envPath}\\{item.RelativePath}";
         await using var fileStream = File.Create(fullPath);
         await fileStream.WriteAsync(item.File);
-        return fullPath;
+        return $"{_webLink}/{item.RelativePath}";
     }
 
     public string GetFileLink(string relativePath)

@@ -17,6 +17,9 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.5" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -31,7 +34,6 @@
       <ProjectReference Include="..\AestheticLife.Core\AestheticLife.Core.csproj" />
       <ProjectReference Include="..\AestheticLife.DataAccess\AestheticLife.DataAccess.csproj" />
       <ProjectReference Include="..\AestheticsLife.File.Services\AestheticsLife.File.Services.csproj" />
-      <ProjectReference Include="..\AestheticsLife.Training.Services\AestheticsLife.Training.Services.csproj" />
     </ItemGroup>
 
 </Project>

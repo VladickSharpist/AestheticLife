@@ -1,0 +1,105 @@
+version: '3.9'
+services:
+  aesthetics-life-user-interface:
+   image: ${DOCKER_REGISTRY-}userui
+   build:
+    context: .
+    dockerfile: AestheticsLifeUI/Dockerfile
+   ports:
+    - "5050:80"
+  AestheticsLifeSqlServer:
+   image: mcr.microsoft.com/mssql/server:2022-latest
+   container_name: aestheticslife-sql-server
+   ports:
+    - "1433:1433"
+   environment:
+    ACCEPT_EULA: "Y"
+    MSSQL_SA_PASSWORD: lhjvvtyu19@
+  rabbitmq-broker:
+   container_name: "rabbitmq"
+   image: masstransit/rabbitmq
+   environment:
+    - RABBITMQ_DEFAULT_USER=guest
+    - RABBITMQ_DEFAULT_PASS=guest
+   ports:
+    - '5672:5672'
+    - '15672:15672'
+  user-service:
+   image: ${DOCKER_REGISTRY-}usermicroservice
+   build:
+    context: .
+    dockerfile: AestheticsLife.User.Service/Dockerfile
+   ports:
+    - "4201:80"
+   environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - CONNECTIONSTRINGS__DEFAULT=Data Source=aestheticslife-sql-server, 1433;Initial Catalog=AestheticsLifeUserDb;User ID=sa;Password=lhjvvtyu19@
+  training-service:
+   image: ${DOCKER_REGISTRY-}trainingmicroservice
+   build:
+    context: .
+    dockerfile: AestheticsLife.Training.Service/Dockerfile
+   ports:
+    - "4202:80"
+   environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - CONNECTIONSTRINGS__DEFAULT=Data Source=aestheticslife-sql-server, 1433;Initial Catalog=AestheticsLifeTrainingDb;User ID=sa;Password=lhjvvtyu19@
+  auth-service:
+   image: ${DOCKER_REGISTRY-}authmicroservice
+   build:
+    context: .
+    dockerfile: Auth.Service/Dockerfile
+   ports:
+    - "4203:80"
+   environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - CONNECTIONSTRINGS__DEFAULT=Data Source=aestheticslife-sql-server, 1433;Initial Catalog=AestheticsLifeAuthDb;User ID=sa;Password=lhjvvtyu19@
+  file-uploader-service:
+   image: ${DOCKER_REGISTRY-}fileuploadermicroservice
+   build:
+    context: .
+    dockerfile: AestheticsLife.FileUploader.Service/Dockerfile
+   ports:
+    - "4204:80"
+   environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+  gateway-ocelot:
+   image: ${DOCKER_REGISTRY-}ocelotapigw
+   build:
+    context: .
+    dockerfile: AestheticsLife.Gateway.Service/Dockerfile
+   environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - ASPNETCORE_URLS=http://aesthticslife:80
+   ports:
+    - "8010:80"
+  local-storage-emulator:
+   image: "mcr.microsoft.com/azure-storage/azurite:latest"
+   container_name: local-storage-emulator
+   ports:
+    - 8081:8081
+    - 8082:8082
+  kibana:
+   container_name: kibana
+   image: docker.elastic.co/kibana/kibana:7.16.1
+   ports:
+    - 5601:5601
+   depends_on:
+    - elasticsearch
+   environment:
+    - ELASTICSEARCH_URL=http://localhost:9200
+  elasticsearch:
+   container_name: els
+   image: docker.elastic.co/elasticsearch/elasticsearch:7.16.1
+   ports:
+    - 9200:9200
+   volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data
+   environment:
+    - xpack.monitoring.enabled=true
+    - xpack.watcher.enabled=false
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    - discovery.type=single-node
+
+volumes:
+ elasticsearch-data:
