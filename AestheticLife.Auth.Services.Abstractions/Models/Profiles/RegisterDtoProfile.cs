@@ -1,5 +1,5 @@
-﻿using AestheticLife.DataAccess.Domain.Models;
-using AutoMapper;
+﻿using AutoMapper;
+using DataAccess.Auth.Abstractions.Models;
 
 namespace AestheticLife.Auth.Services.Abstractions.Models.Profiles;
 
@@ -7,6 +7,6 @@ public class RegisterDtoProfile : Profile
 {
     public RegisterDtoProfile()
     {
-        CreateMap<RegisterUserDto, User>();
+        CreateMap<RegisterUserDto, AuthUser>().ReverseMap();
     }
 }

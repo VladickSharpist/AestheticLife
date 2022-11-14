@@ -8,7 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AestheticLife.Core.Abstractions\AestheticLife.Core.Abstractions.csproj" />
-      <ProjectReference Include="..\AestheticLife.DataAccess.Domain.Abstractions\AestheticLife.DataAccess.Domain.Abstractions.csproj" />
+      <ProjectReference Include="..\AestheticsLife.DataAccess.Shared.Abstractions\AestheticsLife.DataAccess.Shared.Abstractions.csproj" />
     </ItemGroup>
 
     <ItemGroup>

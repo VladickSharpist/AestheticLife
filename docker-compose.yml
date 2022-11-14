@@ -1,0 +1,83 @@
+version: '3.9'
+services:
+  aesthetics-life-user-interface:
+   image: ${DOCKER_REGISTRY-}userui
+   build:
+    context: .
+    dockerfile: AestheticsLifeUI/Dockerfile
+   ports:
+    - "5050:80"
+  AestheticsLifeSqlServer:
+   image: mcr.microsoft.com/mssql/server:2022-latest
+   container_name: aestheticslife-sql-server
+   ports:
+    - "1433:1433"
+   environment:
+    ACCEPT_EULA: "Y"
+    MSSQL_SA_PASSWORD: lhjvvtyu19@
+  rabbitmq-broker:
+   container_name: "rabbitmq"
+   image: masstransit/rabbitmq
+   environment:
+    - RABBITMQ_DEFAULT_USER=guest
+    - RABBITMQ_DEFAULT_PASS=guest
+   ports:
+    - '5672:5672'
+    - '15672:15672'
+  user-service:
+   image: ${DOCKER_REGISTRY-}usermicroservice
+   build:
+    context: .
+    dockerfile: AestheticsLife.User.Service/Dockerfile
+   ports:
+    - "4201:80"
+   environment:
+    - CONNECTIONSTRINGS__DEFAULT=Data Source=aestheticslife-sql-server, 1433;Initial Catalog=AestheticsLifeUserDb;User ID=sa;Password=lhjvvtyu19@
+  training-service:
+   image: ${DOCKER_REGISTRY-}trainingmicroservice
+   build:
+    context: .
+    dockerfile: AestheticsLife.Training.Service/Dockerfile
+   ports:
+    - "4202:80"
+   environment:
+    - CONNECTIONSTRINGS__DEFAULT=Data Source=aestheticslife-sql-server, 1433;Initial Catalog=AestheticsLifeTrainingDb;User ID=sa;Password=lhjvvtyu19@
+  auth-service:
+   image: ${DOCKER_REGISTRY-}authmicroservice
+   build:
+    context: .
+    dockerfile: Auth.Service/Dockerfile
+   ports:
+    - "4203:80"
+   environment:
+    - CONNECTIONSTRINGS__DEFAULT=Data Source=aestheticslife-sql-server, 1433;Initial Catalog=AestheticsLifeAuthDb;User ID=sa;Password=lhjvvtyu19@
+  gateway-ocelot:
+   image: ${DOCKER_REGISTRY-}ocelotapigw
+   build:
+    context: .
+    dockerfile: AestheticsLife.Gateway.Service/Dockerfile
+   environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - ASPNETCORE_URLS=http://aesthticslife:80
+   ports:
+    - "8010:80"
+  local-storage-emulator:
+   image: "mcr.microsoft.com/azure-storage/azurite:latest"
+   container_name: local-storage-emulator
+   ports:
+    - 8081:8081
+    - 8082:8082
+  local-functions:
+    container_name: local-functions
+    build:
+     context: .
+     dockerfile: AestheticsLife.EmailSender/Dockerfile
+    ports:
+     - 8080:80
+    environment:
+     - AzureWebJobsStorage
+     - BlobContainerName
+     - BlobOutputContainerName
+     - QueueName
+    depends_on:
+     - local-storage-emulator

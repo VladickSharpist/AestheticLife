@@ -20,7 +20,6 @@
     <ItemGroup>
       <ProjectReference Include="..\AestheticLife.Core.Abstractions\AestheticLife.Core.Abstractions.csproj" />
       <ProjectReference Include="..\AestheticLife.DataAccess.Domain\AestheticLife.DataAccess.Domain.csproj" />
-      <ProjectReference Include="..\AestheticsLife.DataAccess.Abstractions\AestheticsLife.DataAccess.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,34 +1,30 @@
-﻿using System.Security.Policy;
-using AestheticLife.Auth.Services.Abstractions.Interfaces;
-using AestheticLife.Auth.Services.Abstractions.Models;
-using AestheticLife.DataAccess.Domain.Models;
-using AutoMapper;
 ﻿using AestheticLife.Auth.Services.Abstractions.Interfaces;
 using AestheticLife.Auth.Services.Abstractions.Models;
 using AestheticLife.Core.Abstractions.Constants;
-using AestheticLife.DataAccess.Domain.Models;
-using AestheticLife.DataAccess.Domain.Models.Configurations;
+using AutoMapper;
+using DataAccess.Auth.Abstractions.Models;
+using MassTransit;
 using Microsoft.AspNetCore.Identity;
+using RabbitMq.Events;
 
 namespace AestheticLife.Auth.Services.Implementations;
 
 internal class AuthService : IAuthService
 {
     private readonly IMapper _mapper;
-    private readonly UserManager<User> _userManager;
-    private readonly IEmailService _emailService;
+    private readonly UserManager<AuthUser> _userManager;
     private readonly ITokenService _tokenService;
+    private readonly IPublishEndpoint _publishEndpoint;
 
     public AuthService(
         IMapper mapper,
-        UserManager<User> userManager,
-        IEmailService emailService,
-        ITokenService tokenService)
+        UserManager<AuthUser> userManager,
+        ITokenService tokenService, IPublishEndpoint publishEndpoint)
     {
         _mapper = mapper;
         _userManager = userManager;
-        _emailService = emailService;
         _tokenService = tokenService;
+        _publishEndpoint = publishEndpoint;
     }
 
 
@@ -37,16 +33,17 @@ internal class AuthService : IAuthService
         if (await _userManager.FindByEmailAsync(userDto.Email.ToUpper()) is not null)
             throw new Exception("User with this email already exists");
 
-        var user = _mapper.Map<User>(userDto);
+        var user = _mapper.Map<AuthUser>(userDto);
         var registerResult = await _userManager.CreateAsync(user, userDto.Password);
         if (!registerResult.Succeeded)
-            throw new Exception("Unknown error");
+            throw new Exception(String.Join(";;;", registerResult.Errors.Select(error => error.Description)));
 
         var addingToRoleResult = await _userManager.AddToRoleAsync(user, RoleConstants.ROLE_USER);
         if (!addingToRoleResult.Succeeded)
             throw new Exception($"An adding the user \"{user.UserName}\" with the email \"{user.Email}\" " +
                                 $"to the role \"{RoleConstants.ROLE_USER}\" is failed.");
-
+        
+        await _publishEndpoint.Publish(new NewUserRegistered { Email = user.Email });
         return true;
     }
 

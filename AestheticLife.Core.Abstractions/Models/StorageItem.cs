@@ -1,4 +1,4 @@
-﻿namespace AestheticLife.Core.FileStorage.Abstractions.Models;
+﻿namespace AestheticLife.Core.Abstractions.Models;
 
 public class StorageItem
 {
