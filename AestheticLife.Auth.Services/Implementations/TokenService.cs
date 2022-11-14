@@ -1,15 +1,13 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using AestheticLife.Auth.Services.Abstractions.Interfaces;
 using AestheticLife.Auth.Services.Abstractions.Models;
 using AestheticLife.Auth.Services.Abstractions.Models.Records;
 using AestheticLife.Core.Abstractions.Helpers;
-using AestheticLife.DataAccess.Domain.Models;
-using AestheticLife.DataAccess.Extensions;
-using AestheticsLife.DataAccess.Abstractions;
+using DataAccess.Auth.Abstractions.Models;
+using DataAccess.Auth.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
@@ -17,11 +15,11 @@ namespace AestheticLife.Auth.Services.Implementations;
 
 internal class TokenService : ITokenService
 {
-    private UserManager<User> _userManager;
+    private UserManager<AuthUser> _userManager;
     private IConfigurationHelper _configurationHelper;
 
     public TokenService(
-        UserManager<User> userManager, IConfigurationHelper configurationHelper)
+        UserManager<AuthUser> userManager, IConfigurationHelper configurationHelper)
     {
         _userManager = userManager;
         _configurationHelper = configurationHelper;
@@ -48,7 +46,7 @@ internal class TokenService : ITokenService
         };
     }
 
-    public async Task<RefreshTokenRecord> GenerateRefreshTokenAsync(User user)
+    public async Task<RefreshTokenRecord> GenerateRefreshTokenAsync(AuthUser user)
     {
         var refreshToken = new RefreshTokenDto
         {
@@ -68,7 +66,7 @@ internal class TokenService : ITokenService
         return Convert.ToBase64String(plainTextBytes);
     }
 
-    public async Task<AccessTokenRecord> SetAccessTokenAsync(User user)
+    public async Task<AccessTokenRecord> SetAccessTokenAsync(AuthUser user)
     {
         var signingCredentials = GetSigningCredentials();
         var claims = await GetClaims(user);
@@ -94,7 +92,7 @@ internal class TokenService : ITokenService
     }
 
     //think of transfer it to userService
-    private async Task<List<Claim>> GetClaims(User user)
+    private async Task<List<Claim>> GetClaims(AuthUser user)
     {
         var claims = new List<Claim>
         {

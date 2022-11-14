@@ -8,15 +8,16 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AestheticLife.Auth.Services.Abstractions\AestheticLife.Auth.Services.Abstractions.csproj" />
-      <ProjectReference Include="..\AestheticLife.DataAccess.Domain\AestheticLife.DataAccess.Domain.csproj" />
-      <ProjectReference Include="..\AestheticLife.DataAccess\AestheticLife.DataAccess.csproj" />
-      <ProjectReference Include="..\AestheticsLife.DataAccess.Abstractions\AestheticsLife.DataAccess.Abstractions.csproj" />
+      <ProjectReference Include="..\DataAccess.Auth.Abstractions\DataAccess.Auth.Abstractions.csproj" />
+      <ProjectReference Include="..\DataAccess.Auth\DataAccess.Auth.csproj" />
+      <ProjectReference Include="..\RabbitMq\RabbitMq.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="11.0.1" />
-      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+      <PackageReference Include="AutoMapper" Version="12.0.0" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
       <PackageReference Include="MailKit" Version="3.2.0" />
+      <PackageReference Include="MassTransit.Abstractions" Version="8.0.7" />
       <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     </ItemGroup>
 

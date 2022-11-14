@@ -1,15 +1,12 @@
 ﻿using Aesthetic.SignalR.Services.Abstractions.Hubs;
 using Aesthetic.SignalR.Services.Abstractions.Interfaces;
-using AestheticLife.DataAccess.Domain.Models;
-using AestheticsLife.DataAccess.Abstractions;
-using Microsoft.AspNetCore.Identity;
 
 namespace Aesthetic.SignalR.Services.Implementation;
 
 public class NotificationService : INotificationService
 {
     private NotificationHub _hubContext;
-    private UserManager<User> _userManager;
+    private UserManager<ApplicationUser> _userManager;
     private readonly IUnitOfWork _unitOfWork;
 
 

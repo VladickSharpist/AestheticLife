@@ -1,6 +1,6 @@
-﻿using AestheticLife.Core.FileStorage.Abstractions.Models;
+﻿using AestheticLife.Core.Abstractions.Models;
 
-namespace AestheticLife.Core.FileStorage.Abstractions.Interfaces;
+namespace AestheticLife.Core.Abstractions.Storages;
 
 public interface IFileStorage
 {

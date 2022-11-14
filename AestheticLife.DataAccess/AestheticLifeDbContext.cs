@@ -10,9 +10,9 @@ public class AestheticLifeDbContext : DbContext
     public AestheticLifeDbContext(DbContextOptions<AestheticLifeDbContext> options)
         :base(options)
     {
+        Database.EnsureCreated();
     }
-
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyEntities();

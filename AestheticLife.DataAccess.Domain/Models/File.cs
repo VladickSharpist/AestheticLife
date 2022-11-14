@@ -1,5 +1,4 @@
-using AestheticLife.DataAccess.Domain.Abstractions.Interfaces;
-using AestheticLife.DataAccess.Domain.Abstractions.Models;
+using AestheticsLife.DataAccess.Shared.Abstractions.Models;
 
 namespace AestheticLife.DataAccess.Domain.Models;
 

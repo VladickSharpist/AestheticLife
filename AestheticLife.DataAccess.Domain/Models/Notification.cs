@@ -1,4 +1,4 @@
-﻿using AestheticLife.DataAccess.Domain.Abstractions.Interfaces;
+﻿using AestheticsLife.DataAccess.Shared.Abstractions.Interfaces;
 
 namespace AestheticLife.DataAccess.Domain.Models;
 
@@ -10,5 +10,5 @@ public class Notification : IEntity
 
     public string Message { get; set; }
 
-    public User User { get; set; }
+    //public ApplicationUser ApplicationUser { get; set; }
 }
